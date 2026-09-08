@@ -1,0 +1,61 @@
+import type { IMethodRequest } from '@/data/types';
+
+/** Seed request queue — solves the cold-start problem (spec §6.2). Illustrative. */
+export const METHOD_REQUESTS: IMethodRequest[] = [
+    {
+        id: 'req-vat-return',
+        task: 'A method that drafts the narrative notes for a quarterly VAT return from the ledger export.',
+        roleId: 'finance',
+        sectorId: 'professional',
+        language: 'English',
+        votes: 12,
+        status: 'Open',
+    },
+    {
+        id: 'req-arabic-press',
+        task: 'صياغة بيان صحفي رسمي بالعربية من نقاط الخبر مع نسخة إنجليزية مطابقة.',
+        roleId: 'marketing',
+        sectorId: 'government',
+        language: 'Bilingual',
+        votes: 9,
+        status: 'Claimed',
+        claimedByOrg: 'Ministry programme office',
+    },
+    {
+        id: 'req-shift-handover',
+        task: 'A structured shift-handover summary for a control room from the logbook entries.',
+        roleId: 'operations',
+        sectorId: 'energy',
+        language: 'English',
+        votes: 7,
+        status: 'Open',
+    },
+    {
+        id: 'req-grievance',
+        task: 'تلخيص شكوى موظف وتصنيفها وتوجيهها للجهة المختصة في الموارد البشرية.',
+        roleId: 'hr',
+        sectorId: 'healthcare',
+        language: 'Arabic',
+        votes: 6,
+        status: 'Open',
+    },
+    {
+        id: 'req-sla-breach',
+        task: 'A customer-facing SLA-breach notice that states facts without admitting liability.',
+        roleId: 'customer-service',
+        sectorId: 'telecom',
+        language: 'Bilingual',
+        votes: 5,
+        status: 'Open',
+    },
+    {
+        id: 'req-board-pack',
+        task: 'A one-page board-pack summary from a set of departmental updates.',
+        roleId: 'executive',
+        sectorId: 'banking',
+        language: 'English',
+        votes: 4,
+        status: 'Claimed',
+        claimedByOrg: 'Corporate bank, strategy',
+    },
+];
