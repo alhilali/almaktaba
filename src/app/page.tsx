@@ -208,19 +208,19 @@ export default function LandingPage(): React.ReactElement {
         <div>
             {/* Section 1 — Hero */}
             <section className="border-b border-rule bg-surface">
-                <div className="mx-auto grid max-w-[1180px] items-center gap-10 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-[58fr_42fr]">
+                <div className="mx-auto grid max-w-[1180px] items-center gap-8 sm:gap-10 px-4 sm:px-5 py-10 sm:py-16 md:px-8 md:py-24 lg:grid-cols-[58fr_42fr]">
                     <div className="max-w-[620px]">
                         <h1 className="type-display-1 text-ink leading-[1.15]">
                             {t('heroTitle')}
                         </h1>
-                        <p className="type-body-lg mt-5 max-w-[600px] text-ink-muted leading-relaxed">
+                        <p className="type-body-lg mt-4 sm:mt-5 max-w-[600px] text-ink-muted leading-relaxed">
                             {t('heroSubtitle')}
                         </p>
-                        <div className="mt-8 flex flex-wrap gap-3">
-                            <Link href="/library" className="btn btn-primary">
+                        <div className="mt-6 sm:mt-8 flex flex-col xs:flex-row flex-wrap gap-3">
+                            <Link href="/library" className="btn btn-primary w-full xs:w-auto text-center">
                                 {t('heroBrowseBtn')}
                             </Link>
-                            <Link href="/publish" className="btn btn-secondary">
+                            <Link href="/publish" className="btn btn-secondary w-full xs:w-auto text-center">
                                 {t('heroPublishBtn')}
                             </Link>
                         </div>
@@ -230,15 +230,15 @@ export default function LandingPage(): React.ReactElement {
             </section>
 
             {/* Section 2 — The problem */}
-            <section className="mx-auto max-w-[1180px] px-5 py-14 md:px-8 md:py-20">
-                <div className="max-w-[680px] border-s-2 border-rule-strong ps-6 md:ps-8">
+            <section className="mx-auto max-w-[1180px] px-4 sm:px-5 py-10 sm:py-14 md:px-8 md:py-20">
+                <div className="max-w-[680px] border-s-2 border-rule-strong ps-4 sm:ps-6 md:ps-8">
                     <p className="type-display-3 text-ink leading-snug">
                         {t('problem1')}
                     </p>
-                    <p className="type-display-3 mt-6 text-ink leading-snug">
+                    <p className="type-display-3 mt-4 sm:mt-6 text-ink leading-snug">
                         {t('problem2')}
                     </p>
-                    <p className="type-display-3 mt-6 text-ink leading-snug">
+                    <p className="type-display-3 mt-4 sm:mt-6 text-ink leading-snug">
                         {t('problem3')}
                     </p>
                 </div>
@@ -246,25 +246,25 @@ export default function LandingPage(): React.ReactElement {
 
             {/* Section 3 — How it works */}
             <section className="border-y border-rule bg-surface">
-                <div className="mx-auto max-w-[1180px] px-5 py-14 md:px-8 md:py-20">
-                    <div className="mb-8">
+                <div className="mx-auto max-w-[1180px] px-4 sm:px-5 py-10 sm:py-14 md:px-8 md:py-20">
+                    <div className="mb-6 sm:mb-8">
                         <SectionHeading>{t('howItWorksTitle')}</SectionHeading>
                         <p className="type-meta text-ink-muted mt-1">
                             {t('howItWorksSub')}
                         </p>
                     </div>
 
-                    <div className="grid gap-8 md:grid-cols-3 md:gap-10">
+                    <div className="grid gap-6 sm:gap-8 md:grid-cols-3 md:gap-10">
                         {HOW_IT_WORKS.map((item) => (
                             <div
                                 key={item.step}
-                                className="rounded-[8px] border border-rule bg-paper p-6 transition-all hover:border-rule-strong"
+                                className="rounded-[8px] border border-rule bg-paper p-5 sm:p-6 transition-all hover:border-rule-strong"
                             >
-                                <div className="font-display text-[36px] font-bold leading-none text-accent">
+                                <div className="font-display text-[32px] sm:text-[36px] font-bold leading-none text-accent">
                                     0{item.step}
                                 </div>
-                                <h3 className="type-display-3 mt-4 text-ink">{item.title}</h3>
-                                <p className="type-body mt-2.5 text-ink-muted leading-relaxed">
+                                <h3 className="type-display-3 mt-3 sm:mt-4 text-ink">{item.title}</h3>
+                                <p className="type-body mt-2 text-ink-muted leading-relaxed">
                                     {item.body}
                                 </p>
                             </div>
@@ -274,24 +274,24 @@ export default function LandingPage(): React.ReactElement {
             </section>
 
             {/* Visual Interactive Widget: Team Impact Calculator */}
-            <section className="mx-auto max-w-[1180px] px-5 py-14 md:px-8 md:py-20">
+            <section className="mx-auto max-w-[1180px] px-4 sm:px-5 py-10 sm:py-14 md:px-8 md:py-20">
                 {/* Core Concept: Method vs Run Card */}
-                <div className="mb-8 rounded-[10px] border border-accent/40 bg-accent-sunk/20 p-5 md:p-6 shadow-xs">
-                    <div className="flex items-start gap-3.5">
-                        <span className="text-2xl mt-0.5 select-none">💡</span>
+                <div className="mb-6 sm:mb-8 rounded-[10px] border border-accent/40 bg-accent-sunk/20 p-4 sm:p-6 shadow-xs">
+                    <div className="flex items-start gap-3">
+                        <span className="text-xl sm:text-2xl mt-0.5 select-none">💡</span>
                         <div className="w-full">
                             <h3 className="type-label font-bold text-accent">
                                 {isRTL
                                     ? 'المفهومان الأساسيان في منصة المكتبة (ما الفرق بين الأسلوب والتشغيل؟)'
                                     : 'Two Core Concepts in Al-Maktaba (Method vs. Run):'}
                             </h3>
-                            <p className="type-meta text-ink-muted mt-1 mb-3 leading-relaxed">
+                            <p className="type-meta text-ink-muted mt-1 mb-3 leading-relaxed text-xs sm:text-sm">
                                 {isRTL
                                     ? 'لكي تتضح حسابات الطاقة الاستيعابية والكتالوج بدقة، تفصل المكتبة بين "أسلوب العمل" و"مرات التشغيل":'
                                     : 'To accurately calculate capacity reclaimed, Al-Maktaba distinguishes between the "Method" and the "Run":'}
                             </p>
-                            <div className="grid gap-3.5 sm:grid-cols-2">
-                                <div className="rounded-[6px] border border-rule bg-surface p-4">
+                            <div className="grid gap-3 sm:gap-3.5 sm:grid-cols-2">
+                                <div className="rounded-[6px] border border-rule bg-surface p-3.5 sm:p-4">
                                     <div className="flex items-center gap-2 mb-1.5">
                                         <span className="h-2 w-2 rounded-full bg-accent" />
                                         <strong className="type-label font-bold text-ink">
@@ -304,7 +304,7 @@ export default function LandingPage(): React.ReactElement {
                                             : 'The vetted playbook, system instructions, and quality gates for a recurring task (e.g. drafting ministerial correspondence or credit memos). Built once, shared company-wide.'}
                                     </p>
                                 </div>
-                                <div className="rounded-[6px] border border-rule bg-surface p-4">
+                                <div className="rounded-[6px] border border-rule bg-surface p-3.5 sm:p-4">
                                     <div className="flex items-center gap-2 mb-1.5">
                                         <span className="h-2 w-2 rounded-full bg-measure" />
                                         <strong className="type-label font-bold text-ink">
@@ -322,18 +322,18 @@ export default function LandingPage(): React.ReactElement {
                     </div>
                 </div>
 
-                <div className="rounded-[10px] border border-rule bg-surface p-6 md:p-10 shadow-sm">
-                    <div className="flex flex-wrap items-center justify-between gap-4 border-b border-rule pb-6 mb-8">
+                <div className="rounded-[10px] border border-rule bg-surface p-4 sm:p-6 md:p-10 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-rule pb-5 sm:pb-6 mb-6 sm:mb-8">
                         <div>
-                            <span className="type-disclosure font-mono text-accent uppercase font-bold tracking-wide">
+                            <span className="type-disclosure font-mono text-accent uppercase font-bold tracking-wide text-xs">
                                 {isRTL ? 'حاسبة الأثر المؤسسي وسلّم الاستيعاب' : 'Impact Simulation & Ladder Status'}
                             </span>
-                            <h2 className="type-display-2 text-ink mt-1">
+                            <h2 className="type-display-2 text-ink mt-1 text-xl sm:text-2xl md:text-3xl">
                                 {isRTL
                                     ? 'كم ساعة عمل تستعيدها منظمتك عبر إعادة الاستخدام؟'
                                     : 'How many hours will your organisation reclaim?'}
                             </h2>
-                            <p className="type-meta text-ink-muted mt-1">
+                            <p className="type-meta text-ink-muted mt-1 text-xs sm:text-sm">
                                 {isRTL
                                     ? 'حساب تقديري يستند إلى متوسط التوفير المحقق (32 دقيقة لكل تشغيل أسلوب عمل معتمد).'
                                     : 'Estimated capacity based on benchmark saving of 32 minutes per verified method run.'}
@@ -342,7 +342,7 @@ export default function LandingPage(): React.ReactElement {
                         <IllustrativeChip />
                     </div>
 
-                    <div className="grid gap-10 lg:grid-cols-2 items-center">
+                    <div className="grid gap-8 lg:grid-cols-2 items-center">
                         {/* Interactive Sliders */}
                         <div className="space-y-6">
                             <div>
@@ -350,7 +350,7 @@ export default function LandingPage(): React.ReactElement {
                                     <span className="font-semibold text-ink">
                                         {isRTL ? 'حجم الفريق أو المنظمة:' : 'Team or entity size:'}
                                     </span>
-                                    <span className="font-mono text-accent text-lg font-bold">
+                                    <span className="font-mono text-accent text-base sm:text-lg font-bold">
                                         {teamSize} {isRTL ? 'موظف' : 'people'}
                                     </span>
                                 </div>
@@ -361,7 +361,7 @@ export default function LandingPage(): React.ReactElement {
                                     step="5"
                                     value={teamSize}
                                     onChange={(e) => setTeamSize(Number(e.target.value))}
-                                    className="w-full accent-accent cursor-pointer"
+                                    className="w-full accent-accent cursor-pointer h-6"
                                 />
                                 <div className="flex justify-between type-disclosure text-ink-faint mt-1">
                                     <span>5</span>
@@ -377,7 +377,7 @@ export default function LandingPage(): React.ReactElement {
                                             ? 'المهام الأسبوعية للموظف:'
                                             : 'Weekly tasks per person:'}
                                     </span>
-                                    <span className="font-mono text-accent text-lg font-bold">
+                                    <span className="font-mono text-accent text-base sm:text-lg font-bold">
                                         {runsPerWeek} {isRTL ? 'مهام / أسبوع' : 'tasks / wk'}
                                     </span>
                                 </div>
@@ -400,17 +400,17 @@ export default function LandingPage(): React.ReactElement {
                                                     : 'impact';
                                         setActiveRungKey(key);
                                     }}
-                                    className="w-full accent-accent cursor-pointer"
+                                    className="w-full accent-accent cursor-pointer h-6"
                                 />
-                                <div className="flex justify-between type-disclosure text-ink-faint mt-1">
-                                    <span>1 {isRTL ? '(تفعيل)' : '(Trial)'}</span>
-                                    <span>3 {isRTL ? '(عادة)' : '(Routine)'}</span>
-                                    <span>5 {isRTL ? '(المكتبة 🎯)' : '(Target 🎯)'}</span>
-                                    <span>10 {isRTL ? '(يومي)' : '(Daily)'}</span>
+                                <div className="flex justify-between type-disclosure text-ink-faint mt-1 text-[11px] sm:text-xs">
+                                    <span>1 <span className="hidden sm:inline">{isRTL ? '(تفعيل)' : '(Trial)'}</span></span>
+                                    <span>3 <span className="hidden sm:inline">{isRTL ? '(عادة)' : '(Routine)'}</span></span>
+                                    <span>5 <span className="hidden sm:inline">{isRTL ? '(المكتبة 🎯)' : '(Target 🎯)'}</span><span className="sm:hidden">🎯</span></span>
+                                    <span>10 <span className="hidden sm:inline">{isRTL ? '(يومي)' : '(Daily)'}</span></span>
                                 </div>
                             </div>
 
-                            <p className="type-disclosure text-ink-muted leading-relaxed pt-1 border-t border-rule/50">
+                            <p className="type-disclosure text-ink-muted leading-relaxed pt-1 border-t border-rule/50 text-xs">
                                 💡 {isRTL
                                     ? 'يقيس هذا المؤشر عدد المعاملات والتقارير المنجزة عبر أساليب المكتبة المعتمدة بدلاً من الصياغة اليدوية.'
                                     : 'Measures the volume of recurring memos, letters, or briefs completed using verified library methods instead of manual drafting.'}
@@ -418,34 +418,34 @@ export default function LandingPage(): React.ReactElement {
                         </div>
 
                         {/* Visual Metrics Display */}
-                        <div className="grid grid-cols-2 gap-4 rounded-[8px] border border-rule bg-surface-sunk/40 p-6">
-                            <div className="col-span-2 text-center pb-2 border-b border-rule">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 rounded-[8px] border border-rule bg-surface-sunk/40 p-4 sm:p-6">
+                            <div className="sm:col-span-2 text-center pb-3 border-b border-rule">
                                 <div className="type-disclosure text-ink-faint">
                                     {isRTL ? 'إجمالي الساعات المستعادة سنوياً' : 'Total annual hours returned'}
                                 </div>
-                                <div className="type-display-1 mt-1 text-measure font-mono font-bold">
+                                <div className="type-display-1 mt-1 text-measure font-mono font-bold text-3xl sm:text-4xl">
                                     {formatCount(annualHoursSaved)}{' '}
-                                    <span className="text-xl font-normal text-ink-muted">
+                                    <span className="text-lg sm:text-xl font-normal text-ink-muted">
                                         {t('hours')}
                                     </span>
                                 </div>
                             </div>
-                            <div className="p-3 bg-surface rounded-[6px] border border-rule">
+                            <div className="p-3.5 bg-surface rounded-[6px] border border-rule">
                                 <div className="type-disclosure text-ink-faint">
                                     {isRTL ? 'أيام عمل محررة' : 'Productive days'}
                                 </div>
-                                <div className="type-display-3 mt-0.5 text-accent font-mono font-bold">
+                                <div className="type-display-3 mt-0.5 text-accent font-mono font-bold text-2xl sm:text-3xl">
                                     ~{productiveDays}
                                 </div>
                             </div>
-                            <div className="p-3 bg-surface rounded-[6px] border border-rule flex flex-col justify-between">
+                            <div className="p-3.5 bg-surface rounded-[6px] border border-rule flex flex-col justify-between">
                                 <div>
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between gap-2">
                                         <span className="type-disclosure text-ink-faint">
                                             {isRTL ? 'درجة النضج في السلّم' : 'Ladder status'}
                                         </span>
                                         <span
-                                            className="chip border text-[10px] font-semibold"
+                                            className="chip border text-[10px] font-semibold shrink-0"
                                             style={{
                                                 borderColor: currentLadder.color,
                                                 color: currentLadder.color,
@@ -458,7 +458,7 @@ export default function LandingPage(): React.ReactElement {
                                         {isRTL ? currentLadder.labelAr : currentLadder.labelEn}
                                     </div>
                                 </div>
-                                <p className="type-disclosure text-ink-muted mt-1.5 leading-snug">
+                                <p className="type-disclosure text-ink-muted mt-1.5 leading-snug text-xs">
                                     {isRTL ? currentLadder.descAr : currentLadder.descEn}
                                 </p>
                             </div>
@@ -469,30 +469,31 @@ export default function LandingPage(): React.ReactElement {
 
             {/* Section 4 — Where this sits & Interactive Ladder */}
             <section className="border-t border-rule bg-surface">
-                <div className="mx-auto max-w-[1180px] px-5 py-14 md:px-8 md:py-20">
-                    <div className="grid gap-12 lg:grid-cols-[1fr_1fr]">
+                <div className="mx-auto max-w-[1180px] px-4 sm:px-5 py-10 sm:py-14 md:px-8 md:py-20">
+                    <div className="grid gap-10 lg:grid-cols-[1fr_1fr]">
                         {/* Part A — the programme */}
                         <div className="max-w-[680px]">
                             <SectionHeading>{t('whereItSitsTitle')}</SectionHeading>
-                            <p className="type-body mt-5 text-ink leading-relaxed">
+                            <p className="type-body mt-4 sm:mt-5 text-ink leading-relaxed">
                                 {t('whereItSitsP1')}
                             </p>
-                            <p className="type-body mt-4 text-ink leading-relaxed">
+                            <p className="type-body mt-3 sm:mt-4 text-ink leading-relaxed">
                                 {t('whereItSitsP2')}
                             </p>
-                            <p className="type-display-3 mt-5 text-ink">
+                            <p className="type-display-3 mt-4 sm:mt-5 text-ink text-xl sm:text-2xl">
                                 {t('whereItSitsP3')}
                             </p>
 
                             {/* Interactive 5-Rung Ladder */}
                             <div className="mt-8">
-                                <div className="flex items-end gap-2">
+                                <div className="flex items-end gap-1.5 sm:gap-2">
                                     {ADOPTION_LADDER.map((rung, index) => (
                                         <button
                                             key={rung.key}
                                             type="button"
                                             onClick={() => setActiveRungKey(rung.key)}
-                                            className="flex-1 text-start group cursor-pointer"
+                                            className="flex-1 text-start group cursor-pointer focus:outline-hidden"
+                                            aria-label={rung.label}
                                         >
                                             <div
                                                 className={cn(
@@ -503,11 +504,11 @@ export default function LandingPage(): React.ReactElement {
                                                           ? 'border-accent bg-accent-sunk'
                                                           : 'border-rule bg-surface-sunk group-hover:border-rule-strong',
                                                 )}
-                                                style={{ height: `${32 + index * 12}px` }}
+                                                style={{ height: `${28 + index * 10}px` }}
                                             />
                                             <div
                                                 className={cn(
-                                                    'border-t px-1.5 pt-2 type-disclosure transition-colors',
+                                                    'border-t px-1 sm:px-1.5 pt-2 type-disclosure transition-colors text-center sm:text-start',
                                                     activeRungKey === rung.key
                                                         ? 'border-accent font-bold text-accent'
                                                         : rung.isMaktabaRung
@@ -515,42 +516,47 @@ export default function LandingPage(): React.ReactElement {
                                                           : 'border-rule-strong text-ink-faint',
                                                 )}
                                             >
-                                                {isRTL
-                                                    ? [
-                                                          t('ladderAccess'),
-                                                          t('ladderActivation'),
-                                                          t('ladderHabit'),
-                                                          'التكامل',
-                                                          t('ladderImpact'),
-                                                      ][index]
-                                                    : rung.label}
+                                                <span className="block sm:hidden text-xs font-mono font-bold">
+                                                    0{index + 1}
+                                                </span>
+                                                <span className="hidden sm:block truncate">
+                                                    {isRTL
+                                                        ? [
+                                                              t('ladderAccess'),
+                                                              t('ladderActivation'),
+                                                              t('ladderHabit'),
+                                                              'التكامل',
+                                                              t('ladderImpact'),
+                                                          ][index]
+                                                        : rung.label}
+                                                </span>
                                             </div>
                                         </button>
                                     ))}
                                 </div>
 
                                 {/* Active Rung Information Card */}
-                                <div className="mt-4 rounded-[6px] border border-accent bg-accent-sunk/30 p-4">
-                                    <div className="flex items-center justify-between mb-1.5">
-                                        <span className="type-label font-bold text-accent">
+                                <div className="mt-4 rounded-[6px] border border-accent bg-accent-sunk/30 p-3.5 sm:p-4">
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                        <span className="type-label font-bold text-accent text-sm sm:text-base">
                                             {isRTL
                                                 ? `الدرجة المختارة: ${activeRung.label}`
                                                 : `Selected Rung: ${activeRung.label}`}
                                         </span>
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex flex-wrap items-center gap-1.5">
                                             {calculatedRungKey === activeRung.key && (
-                                                <span className="chip border border-accent/60 bg-surface text-accent text-[11px] font-semibold">
+                                                <span className="chip border border-accent/60 bg-surface text-accent text-[10px] sm:text-[11px] font-semibold">
                                                     {isRTL ? 'المستوى المحسوب بالحاسبة' : 'Your simulated tier'}
                                                 </span>
                                             )}
                                             {activeRung.isMaktabaRung && (
-                                                <span className="chip border border-accent bg-surface text-accent text-[11px] font-semibold">
+                                                <span className="chip border border-accent bg-surface text-accent text-[10px] sm:text-[11px] font-semibold">
                                                     {isRTL ? 'نطاق تركيز المكتبة 🎯' : 'Al-Maktaba focus 🎯'}
                                                 </span>
                                             )}
                                         </div>
                                     </div>
-                                    <p className="type-meta text-ink leading-relaxed">
+                                    <p className="type-meta text-ink leading-relaxed text-xs sm:text-sm">
                                         {isRTL
                                             ? rungDescriptions[activeRung.key]?.ar
                                             : rungDescriptions[activeRung.key]?.en}
@@ -561,15 +567,15 @@ export default function LandingPage(): React.ReactElement {
 
                         {/* Part B — frameworks */}
                         <div>
-                            <h3 className="type-label mb-4 text-ink-faint">
+                            <h3 className="type-label mb-3 text-ink-faint">
                                 {isRTL ? 'المملكة العربية السعودية' : 'Saudi Arabia'}
                             </h3>
                             <ul className="divide-y divide-rule border-y border-rule">
                                 {FRAMEWORKS_SA.map((framework) => (
-                                    <li key={framework.name} className="py-3">
+                                    <li key={framework.name} className="py-2.5 sm:py-3">
                                         <div className="type-label text-ink">{framework.name}</div>
                                         {framework.note && (
-                                            <div className="type-meta text-ink-muted">
+                                            <div className="type-meta text-ink-muted text-xs sm:text-sm mt-0.5">
                                                 {framework.note}
                                             </div>
                                         )}
@@ -577,28 +583,28 @@ export default function LandingPage(): React.ReactElement {
                                 ))}
                             </ul>
 
-                            <h3 className="type-label mb-4 mt-8 text-ink-faint">
+                            <h3 className="type-label mb-3 mt-6 sm:mt-8 text-ink-faint">
                                 {isRTL ? 'الأطر والمعايير الدولية' : 'International'}
                             </h3>
                             <ul className="divide-y divide-rule border-y border-rule">
-                                <li className="py-3">
+                                <li className="py-2.5 sm:py-3">
                                     <div className="type-label text-ink">
                                         NIST AI Risk Management Framework
                                     </div>
                                 </li>
-                                <li className="py-3">
+                                <li className="py-2.5 sm:py-3">
                                     <div className="type-label text-ink">ISO/IEC 42001</div>
-                                    <div className="type-meta text-ink-muted">
+                                    <div className="type-meta text-ink-muted text-xs sm:text-sm mt-0.5">
                                         {isRTL
                                             ? 'أنظمة إدارة الذكاء الاصطناعي المؤسسية'
                                             : 'AI management systems'}
                                     </div>
                                 </li>
-                                <li className="py-3">
+                                <li className="py-2.5 sm:py-3">
                                     <div className="type-label text-ink">
                                         Bass diffusion model (1969)
                                     </div>
-                                    <div className="type-meta text-ink-muted">
+                                    <div className="type-meta text-ink-muted text-xs sm:text-sm mt-0.5">
                                         {isRTL
                                             ? 'النموذج الرياضي لمحاكاة وتوقع انتشار التقنيات'
                                             : 'the mathematics under the adoption simulation'}
@@ -612,24 +618,56 @@ export default function LandingPage(): React.ReactElement {
 
             {/* Section 5 — What makes this different & Comparison Table */}
             <section className="border-y border-rule bg-surface">
-                <div className="mx-auto max-w-[1180px] px-5 py-14 md:px-8 md:py-20">
-                    <div className="grid gap-12 md:grid-cols-2">
+                <div className="mx-auto max-w-[1180px] px-4 sm:px-5 py-10 sm:py-14 md:px-8 md:py-20">
+                    <div className="grid gap-8 sm:gap-12 md:grid-cols-2">
                         <div className="max-w-[540px]">
                             <SectionHeading>{t('diff1Title')}</SectionHeading>
-                            <p className="type-body mt-4 text-ink-muted leading-relaxed">
+                            <p className="type-body mt-3 sm:mt-4 text-ink-muted leading-relaxed text-sm sm:text-base">
                                 {t('diff1Body')}
                             </p>
                         </div>
                         <div className="max-w-[540px]">
                             <SectionHeading>{t('diff2Title')}</SectionHeading>
-                            <p className="type-body mt-4 text-ink-muted leading-relaxed">
+                            <p className="type-body mt-3 sm:mt-4 text-ink-muted leading-relaxed text-sm sm:text-base">
                                 {t('diff2Body')}
                             </p>
                         </div>
                     </div>
 
-                    {/* Comparison table */}
-                    <div className="mt-12 overflow-x-auto">
+                    {/* Mobile Comparison Cards (block md:hidden) */}
+                    <div className="mt-8 space-y-3.5 md:hidden">
+                        {COMPARISON.map((row) => (
+                            <div
+                                key={row.dimension}
+                                className="rounded-[8px] border border-rule bg-surface p-4 space-y-2.5 shadow-xs"
+                            >
+                                <div className="type-label font-bold text-ink border-b border-rule/50 pb-2">
+                                    {row.dimension}
+                                </div>
+                                <div className="space-y-2">
+                                    <div className="rounded-[6px] bg-surface-sunk/50 p-2.5">
+                                        <span className="type-disclosure block text-ink-faint mb-0.5 text-[11px]">
+                                            {t('comparisonColCreator')}:
+                                        </span>
+                                        <span className="type-meta text-ink-muted text-xs">
+                                            {row.creator}
+                                        </span>
+                                    </div>
+                                    <div className="rounded-[6px] bg-accent-sunk/30 border border-accent/40 p-2.5">
+                                        <span className="type-disclosure block font-semibold text-accent mb-0.5 text-[11px]">
+                                            {t('comparisonColMaktaba')}:
+                                        </span>
+                                        <span className="type-meta text-ink font-medium text-xs">
+                                            {row.maktaba}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Desktop / Tablet Comparison table */}
+                    <div className="mt-12 hidden md:block overflow-x-auto">
                         <table className="w-full min-w-[640px] border-collapse text-start">
                             <thead>
                                 <tr className="border-b border-rule-strong">
@@ -660,27 +698,27 @@ export default function LandingPage(): React.ReactElement {
                         </table>
                     </div>
 
-                    <p className="type-display-3 mt-12 max-w-[680px] text-ink leading-relaxed">
+                    <p className="type-display-3 mt-8 sm:mt-12 max-w-[680px] text-ink leading-relaxed text-lg sm:text-xl md:text-2xl">
                         {t('diffClosing')}
                     </p>
                 </div>
             </section>
 
             {/* Section 6 — The catalogue at a glance (Interactive Sector Shelf) */}
-            <section className="mx-auto max-w-[1180px] px-5 py-14 md:px-8 md:py-20">
-                <div className="mb-6 flex items-center justify-between">
+            <section className="mx-auto max-w-[1180px] px-4 sm:px-5 py-10 sm:py-14 md:px-8 md:py-20">
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                         <SectionHeading>
                             {isRTL ? 'نظرة سريعة على رفوف المكتبة' : 'The catalogue at a glance'}
                         </SectionHeading>
                         <IllustrativeChip />
                     </div>
-                    <Link href="/library" className="btn btn-secondary btn-sm">
+                    <Link href="/library" className="btn btn-secondary btn-sm self-start sm:self-auto">
                         {t('navBrowse')}
                     </Link>
                 </div>
 
-                <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
+                <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_360px]">
                     {/* Sector Bars List */}
                     <div className="divide-y divide-rule border-y border-rule">
                         {sectors.map((sector) => {
@@ -693,51 +731,64 @@ export default function LandingPage(): React.ReactElement {
                                     type="button"
                                     onClick={() => setPreviewSectorId(sector.sectorId)}
                                     className={cn(
-                                        'flex w-full items-center gap-4 py-3 text-start transition-colors px-2 rounded-[4px]',
-                                        isSelected ? 'bg-surface-sunk font-semibold' : 'hover:bg-surface-sunk/50',
+                                        'flex w-full items-center justify-between gap-2.5 py-3 text-start transition-colors px-2.5 rounded-[6px]',
+                                        isSelected
+                                            ? 'bg-surface-sunk font-semibold'
+                                            : 'hover:bg-surface-sunk/50',
                                     )}
                                 >
-                                    <span
-                                        aria-hidden
-                                        className="h-2.5 w-2.5 shrink-0 rounded-full"
-                                        style={{ backgroundColor: sector.color }}
-                                    />
-                                    <span className="type-body w-52 shrink-0 truncate text-ink">
-                                        {name}
-                                    </span>
-                                    <span className="type-meta w-24 shrink-0 tabular-nums text-ink-faint">
-                                        {sector.count} {isRTL ? 'أسلوب' : 'methods'}
-                                    </span>
-                                    <span className="hidden h-2 flex-1 overflow-hidden rounded-full bg-surface-sunk sm:block">
+                                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
                                         <span
-                                            className="block h-full rounded-full"
-                                            style={{
-                                                width: `${(sector.totalReuse / maxSectorReuse) * 100}%`,
-                                                backgroundColor: sector.color,
-                                            }}
+                                            aria-hidden
+                                            className="h-2.5 w-2.5 shrink-0 rounded-full"
+                                            style={{ backgroundColor: sector.color }}
                                         />
-                                    </span>
-                                    <span className="type-meta w-28 shrink-0 text-end tabular-nums text-ink-muted">
-                                        {sector.reusePerMethod} {t('perMethod')}
-                                    </span>
+                                        <span className="type-body truncate text-ink">
+                                            {name}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 sm:gap-4 shrink-0 type-meta tabular-nums">
+                                        <span className="text-ink-faint text-xs sm:text-sm">
+                                            {sector.count}{' '}
+                                            <span className="hidden sm:inline">
+                                                {isRTL ? 'أسلوب' : 'methods'}
+                                            </span>
+                                        </span>
+
+                                        <span className="hidden h-2 w-20 md:w-28 overflow-hidden rounded-full bg-surface-sunk sm:block">
+                                            <span
+                                                className="block h-full rounded-full"
+                                                style={{
+                                                    width: `${(sector.totalReuse / maxSectorReuse) * 100}%`,
+                                                    backgroundColor: sector.color,
+                                                }}
+                                            />
+                                        </span>
+
+                                        <span className="text-end text-xs sm:text-sm text-ink-muted min-w-[70px] sm:min-w-[90px]">
+                                            <strong className="text-accent font-semibold">{sector.reusePerMethod}</strong>{' '}
+                                            <span className="text-[11px] text-ink-faint">{t('perMethod')}</span>
+                                        </span>
+                                    </div>
                                 </button>
                             );
                         })}
                     </div>
 
                     {/* Sector Featured Preview Card */}
-                    <div className="rounded-[8px] border border-rule bg-surface p-6 flex flex-col justify-between shadow-sm">
+                    <div className="rounded-[8px] border border-rule bg-surface p-4 sm:p-6 flex flex-col justify-between shadow-sm">
                         <div>
                             <div className="type-disclosure text-ink-faint mb-2">
                                 {isRTL ? 'أسلوب عمل مميز من هذا القطاع' : 'Featured sector workflow'}
                             </div>
-                            <h3 className="type-display-3 text-ink font-bold leading-snug">
+                            <h3 className="type-display-3 text-ink font-bold leading-snug text-lg sm:text-xl md:text-2xl">
                                 {topMethod.title}
                             </h3>
-                            <p className="type-meta text-ink-muted mt-2 leading-relaxed">
+                            <p className="type-meta text-ink-muted mt-2 leading-relaxed text-xs sm:text-sm">
                                 {topMethod.description}
                             </p>
-                            <div className="mt-4 flex items-center gap-4 type-disclosure">
+                            <div className="mt-4 flex flex-wrap items-center gap-3 sm:gap-4 type-disclosure">
                                 <span className="font-bold text-accent">
                                     {topMethod.reuseCount} {isRTL ? 'استخدام موثق' : 'reuses'}
                                 </span>
@@ -752,7 +803,7 @@ export default function LandingPage(): React.ReactElement {
                         <div className="mt-6 pt-4 border-t border-rule">
                             <Link
                                 href={`/library?sector=${previewSectorId}`}
-                                className="btn btn-primary btn-sm w-full"
+                                className="btn btn-primary btn-sm w-full text-center"
                             >
                                 {isRTL ? 'تصفح أساليب هذا القطاع ←' : 'Browse this sector →'}
                             </Link>
@@ -763,13 +814,15 @@ export default function LandingPage(): React.ReactElement {
 
             {/* Section 7 — Close */}
             <section className="border-t border-rule bg-surface">
-                <div className="mx-auto max-w-[1180px] px-5 py-16 text-center md:px-8 md:py-24">
-                    <p className="type-display-2 text-ink">{t('closeTitle')}</p>
-                    <div className="mt-7 flex justify-center gap-3">
-                        <Link href="/library" className="btn btn-primary">
+                <div className="mx-auto max-w-[1180px] px-4 sm:px-5 py-12 sm:py-16 text-center md:px-8 md:py-24">
+                    <p className="type-display-2 text-ink text-xl sm:text-2xl md:text-3xl max-w-[640px] mx-auto leading-snug">
+                        {t('closeTitle')}
+                    </p>
+                    <div className="mt-6 sm:mt-7 flex flex-col xs:flex-row justify-center gap-3">
+                        <Link href="/library" className="btn btn-primary w-full xs:w-auto text-center">
                             {t('closeBrowseBtn')}
                         </Link>
-                        <Link href="/publish" className="btn btn-secondary">
+                        <Link href="/publish" className="btn btn-secondary w-full xs:w-auto text-center">
                             {t('closePublishBtn')}
                         </Link>
                     </div>

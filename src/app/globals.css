@@ -154,6 +154,7 @@
 
     html {
         -webkit-text-size-adjust: 100%;
+        overflow-x: clip;
     }
 
     body {
@@ -164,6 +165,7 @@
         line-height: 1.7;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+        overflow-x: clip;
     }
 
     /* Arabic mode / RTL: Thmanyah is the unified typeface across all elements */

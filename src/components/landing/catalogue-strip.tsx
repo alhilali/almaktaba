@@ -50,7 +50,7 @@ function StripRow({ id }: { id: string }): React.ReactElement | null {
 }
 
 export function CatalogueStrip(): React.ReactElement {
-    const { t } = useLanguage();
+    const { t, isRTL } = useLanguage();
     const rows = [...STRIP_IDS, ...STRIP_IDS];
 
     return (
@@ -75,12 +75,13 @@ export function CatalogueStrip(): React.ReactElement {
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-surface to-transparent" />
             </div>
 
-            {/* Mobile: horizontal scroll of the same rows */}
-            <div className="flex gap-3 overflow-x-auto p-3 sm:hidden">
+            {/* Mobile: horizontal snap-scroll cards */}
+            <div className="flex gap-3 overflow-x-auto p-3.5 sm:hidden snap-x snap-mandatory">
                 {STRIP_IDS.map((id) => {
                     const method = getMethod(id);
                     const sector = method ? getSector(method.sectorId) : undefined;
                     const role = method ? getRole(method.roleId) : undefined;
+                    const roleName = isRTL ? role?.nameAr || role?.name : role?.name;
                     if (!method) {
                         return null;
                     }
@@ -88,20 +89,27 @@ export function CatalogueStrip(): React.ReactElement {
                         <Link
                             key={id}
                             href={`/library/${id}`}
-                            className="flex w-56 shrink-0 flex-col rounded-[8px] border border-rule bg-surface p-3"
+                            className="snap-start flex w-[230px] shrink-0 flex-col justify-between rounded-[8px] border border-rule bg-surface p-3 transition-colors hover:border-rule-strong"
                         >
-                            <span
-                                className="h-1 w-full rounded-t-[8px]"
-                                style={{ backgroundColor: sector?.color }}
-                            />
-                            <span className="flex flex-1 flex-col gap-2 pt-2">
+                            <div>
+                                <span
+                                    className="block h-1 w-full rounded-t-[4px] mb-2"
+                                    style={{ backgroundColor: sector?.color }}
+                                />
                                 <MethodTitle
                                     method={method}
-                                    className="type-body font-medium text-ink"
+                                    className="type-body font-medium text-ink line-clamp-2"
                                 />
-                                <span className="type-meta text-ink-faint">{role?.name}</span>
+                                <span className="type-disclosure text-ink-faint mt-1 block truncate">
+                                    {roleName}
+                                </span>
+                            </div>
+                            <div className="mt-3 pt-2 border-t border-rule/60 flex items-center justify-between">
+                                <span className="type-disclosure text-ink-muted">
+                                    {isRTL ? sector?.nameAr : sector?.name}
+                                </span>
                                 <ReuseCount count={method.reuseCount} />
-                            </span>
+                            </div>
                         </Link>
                     );
                 })}
