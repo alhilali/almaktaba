@@ -11,10 +11,12 @@ import { cn } from '@/lib/utils';
 import { SampleDataBanner } from '@/components/sample-data-banner';
 import { IllustrativeChip } from '@/components/illustrative-chip';
 import { LanguageChip } from '@/components/chips';
+import { useLanguage } from '@/context/language-context';
 
 type StatusFilter = 'All' | 'Open' | 'Claimed';
 
 export default function RequestsPage(): React.ReactElement {
+    const { lang, t } = useLanguage();
     const [requests, setRequests] = useState<IMethodRequest[]>(METHOD_REQUESTS);
     const [statusFilter, setStatusFilter] = useState<StatusFilter>('All');
     const [sectorFilter, setSectorFilter] = useState<string>('');
@@ -101,10 +103,9 @@ export default function RequestsPage(): React.ReactElement {
                 {/* Header */}
                 <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
                     <div>
-                        <h1 className="type-display-2 text-ink">Request a method</h1>
+                        <h1 className="type-display-2 text-ink">{t.requestsTitle}</h1>
                         <p className="type-meta mt-1 max-w-[720px] text-ink-muted">
-                            Colleagues and organisations post tasks they wish existed as methods.
-                            Vote for priorities or claim a request to author it.
+                            {t.requestsSubtitle}
                         </p>
                     </div>
                     <div className="flex items-center gap-3">
@@ -114,7 +115,7 @@ export default function RequestsPage(): React.ReactElement {
                             onClick={() => setIsFormOpen(!isFormOpen)}
                             className="btn btn-primary btn-sm"
                         >
-                            {isFormOpen ? 'Close form' : '+ Post a request'}
+                            {isFormOpen ? t.closeFormBtn : t.postRequestBtn}
                         </button>
                     </div>
                 </div>
@@ -122,30 +123,30 @@ export default function RequestsPage(): React.ReactElement {
                 {/* KPI Overview */}
                 <div className="mb-8 grid grid-cols-2 gap-px overflow-hidden rounded-[8px] border border-rule bg-rule lg:grid-cols-4">
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Open requests</div>
+                        <div className="type-disclosure text-ink-faint">{t.openRequests}</div>
                         <div className="type-display-3 mt-1 tabular-nums text-ink">{openCount}</div>
-                        <p className="type-disclosure mt-1 text-ink-muted">Awaiting authors</p>
+                        <p className="type-disclosure mt-1 text-ink-muted">{t.awaitingAuthors}</p>
                     </div>
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Claimed in progress</div>
+                        <div className="type-disclosure text-ink-faint">{t.claimedInProgress}</div>
                         <div className="type-display-3 mt-1 tabular-nums text-accent">
                             {claimedCount}
                         </div>
-                        <p className="type-disclosure mt-1 text-ink-muted">By participating entities</p>
+                        <p className="type-disclosure mt-1 text-ink-muted">{t.byParticipatingEntities}</p>
                     </div>
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Total community votes</div>
+                        <div className="type-disclosure text-ink-faint">{t.totalCommunityVotes}</div>
                         <div className="type-display-3 mt-1 tabular-nums text-measure">
                             {totalVotes}
                         </div>
-                        <p className="type-disclosure mt-1 text-ink-muted">Priority signals</p>
+                        <p className="type-disclosure mt-1 text-ink-muted">{t.prioritySignals}</p>
                     </div>
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Cold-start solution</div>
+                        <div className="type-disclosure text-ink-faint">{t.coldStartSolution}</div>
                         <div className="type-label mt-2 font-medium text-ink">
-                            Demand-led authoring
+                            {t.demandLedAuthoring}
                         </div>
-                        <p className="type-disclosure mt-1 text-ink-muted">Focus on real needs</p>
+                        <p className="type-disclosure mt-1 text-ink-muted">{t.focusOnRealNeeds}</p>
                     </div>
                 </div>
 
@@ -156,23 +157,23 @@ export default function RequestsPage(): React.ReactElement {
                         className="mb-8 rounded-[8px] border border-accent bg-surface p-6"
                     >
                         <h2 className="type-label text-ink font-semibold mb-1">
-                            Post a new task request
+                            {t.postNewTaskTitle}
                         </h2>
                         <p className="type-meta text-ink-muted mb-4">
-                            Describe a recurring workflow you want an approved method for.
+                            {t.postNewTaskSub}
                         </p>
 
                         <div className="space-y-4">
                             <div>
                                 <label className="type-disclosure block text-ink-faint mb-1">
-                                    Task description (Arabic or English)
+                                    {t.taskDescLabel}
                                 </label>
                                 <textarea
                                     value={newTask}
                                     onChange={(e) => setNewTask(e.target.value)}
                                     required
                                     rows={3}
-                                    placeholder="e.g. صياغة مذكرة موافقة ميزانية داخلية أو A structured shift-handover summary"
+                                    placeholder={t.taskDescPlaceholder}
                                     className="w-full rounded-[4px] border border-rule bg-paper px-3 py-2 type-body text-ink placeholder:text-ink-faint focus:border-accent"
                                 />
                             </div>
@@ -180,7 +181,7 @@ export default function RequestsPage(): React.ReactElement {
                             <div className="grid gap-4 sm:grid-cols-3">
                                 <div>
                                     <label className="type-disclosure block text-ink-faint mb-1">
-                                        Sector
+                                        {t.sectorTitle}
                                     </label>
                                     <select
                                         value={newSector}
@@ -188,10 +189,10 @@ export default function RequestsPage(): React.ReactElement {
                                         required
                                         className="w-full rounded-[4px] border border-rule bg-paper px-3 py-2 type-meta text-ink focus:border-accent"
                                     >
-                                        <option value="">Select sector…</option>
+                                        <option value="">{t.selectSector}</option>
                                         {SECTORS.map((s) => (
                                             <option key={s.id} value={s.id}>
-                                                {s.name}
+                                                {lang === 'ar' && s.nameAr ? s.nameAr : s.name}
                                             </option>
                                         ))}
                                     </select>
@@ -199,7 +200,7 @@ export default function RequestsPage(): React.ReactElement {
 
                                 <div>
                                     <label className="type-disclosure block text-ink-faint mb-1">
-                                        Role family
+                                        {t.roleFamilyTitle}
                                     </label>
                                     <select
                                         value={newRole}
@@ -207,10 +208,10 @@ export default function RequestsPage(): React.ReactElement {
                                         required
                                         className="w-full rounded-[4px] border border-rule bg-paper px-3 py-2 type-meta text-ink focus:border-accent"
                                     >
-                                        <option value="">Select role…</option>
+                                        <option value="">{t.selectRole}</option>
                                         {ROLE_FAMILIES.map((r) => (
                                             <option key={r.id} value={r.id}>
-                                                {r.name}
+                                                {lang === 'ar' && r.nameAr ? r.nameAr : r.name}
                                             </option>
                                         ))}
                                     </select>
@@ -218,16 +219,16 @@ export default function RequestsPage(): React.ReactElement {
 
                                 <div>
                                     <label className="type-disclosure block text-ink-faint mb-1">
-                                        Language
+                                        {t.selectLanguage}
                                     </label>
                                     <select
                                         value={newLang}
                                         onChange={(e) => setNewLang(e.target.value as Language)}
                                         className="w-full rounded-[4px] border border-rule bg-paper px-3 py-2 type-meta text-ink focus:border-accent"
                                     >
-                                        <option value="Arabic">Arabic</option>
-                                        <option value="English">English</option>
-                                        <option value="Bilingual">Bilingual</option>
+                                        <option value="Arabic">{lang === 'ar' ? 'العربية' : 'Arabic'}</option>
+                                        <option value="English">{lang === 'ar' ? 'الإنجليزية' : 'English'}</option>
+                                        <option value="Bilingual">{lang === 'ar' ? 'ثنائي اللغة' : 'Bilingual'}</option>
                                     </select>
                                 </div>
                             </div>
@@ -238,10 +239,10 @@ export default function RequestsPage(): React.ReactElement {
                                     onClick={() => setIsFormOpen(false)}
                                     className="btn btn-secondary btn-sm"
                                 >
-                                    Cancel
+                                    {t.cancel}
                                 </button>
                                 <button type="submit" className="btn btn-primary btn-sm">
-                                    Publish request
+                                    {t.publishRequestBtn}
                                 </button>
                             </div>
                         </div>
@@ -251,34 +252,42 @@ export default function RequestsPage(): React.ReactElement {
                 {/* Filters */}
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-rule pb-4">
                     <div className="flex items-center gap-2">
-                        {(['All', 'Open', 'Claimed'] as StatusFilter[]).map((tab) => (
-                            <button
-                                key={tab}
-                                type="button"
-                                onClick={() => setStatusFilter(tab)}
-                                className={cn(
-                                    'chip border transition-colors',
-                                    statusFilter === tab
-                                        ? 'border-accent bg-accent-sunk text-accent font-semibold'
-                                        : 'border-rule bg-surface text-ink-muted hover:border-rule-strong',
-                                )}
-                            >
-                                {tab}
-                            </button>
-                        ))}
+                        {(['All', 'Open', 'Claimed'] as StatusFilter[]).map((tab) => {
+                            const tabLabel =
+                                tab === 'All'
+                                    ? t.tabAll
+                                    : tab === 'Open'
+                                      ? t.tabOpen
+                                      : t.tabClaimed;
+                            return (
+                                <button
+                                    key={tab}
+                                    type="button"
+                                    onClick={() => setStatusFilter(tab)}
+                                    className={cn(
+                                        'chip border transition-colors',
+                                        statusFilter === tab
+                                            ? 'border-accent bg-accent-sunk text-accent font-semibold'
+                                            : 'border-rule bg-surface text-ink-muted hover:border-rule-strong',
+                                    )}
+                                >
+                                    {tabLabel}
+                                </button>
+                            );
+                        })}
                     </div>
 
                     <div className="flex items-center gap-2 type-meta text-ink-muted">
-                        <span>Sector:</span>
+                        <span>{t.filterSectorLabel}</span>
                         <select
                             value={sectorFilter}
                             onChange={(e) => setSectorFilter(e.target.value)}
                             className="rounded-[4px] border border-rule bg-surface px-2 py-1 type-meta text-ink focus:border-accent"
                         >
-                            <option value="">All sectors</option>
+                            <option value="">{t.filterAllSectors}</option>
                             {SECTORS.map((s) => (
                                 <option key={s.id} value={s.id}>
-                                    {s.name}
+                                    {lang === 'ar' && s.nameAr ? s.nameAr : s.name}
                                 </option>
                             ))}
                         </select>
@@ -290,6 +299,8 @@ export default function RequestsPage(): React.ReactElement {
                     {filtered.map((req) => {
                         const sector = getSector(req.sectorId);
                         const role = getRole(req.roleId);
+                        const sectorName = lang === 'ar' && sector?.nameAr ? sector.nameAr : sector?.name;
+                        const roleName = lang === 'ar' && role?.nameAr ? role.nameAr : role?.name;
                         const hasVoted = !!userVotes[req.id];
                         const isArabic = /[\u0600-\u06FF]/.test(req.task);
 
@@ -309,7 +320,15 @@ export default function RequestsPage(): React.ReactElement {
                                                 ? 'border-accent bg-accent-sunk text-accent font-semibold'
                                                 : 'border-rule bg-surface-sunk/50 text-ink-muted hover:border-accent hover:text-accent',
                                         )}
-                                        title={hasVoted ? 'Remove vote' : 'Upvote this request'}
+                                        title={
+                                            hasVoted
+                                                ? lang === 'ar'
+                                                    ? 'إلغاء التصويت'
+                                                    : 'Remove vote'
+                                                : lang === 'ar'
+                                                  ? 'تصويت لهذا الطلب'
+                                                  : 'Upvote this request'
+                                        }
                                     >
                                         <span className="text-xs">▲</span>
                                         <span className="type-meta tabular-nums">{req.votes}</span>
@@ -323,11 +342,11 @@ export default function RequestsPage(): React.ReactElement {
                                                 style={{ backgroundColor: sector?.color }}
                                             />
                                             <span className="type-disclosure text-ink-muted">
-                                                {sector?.name}
+                                                {sectorName}
                                             </span>
                                             <span className="type-disclosure text-ink-faint">·</span>
                                             <span className="type-disclosure text-ink-muted">
-                                                {role?.name}
+                                                {roleName}
                                             </span>
                                             <LanguageChip language={req.language} />
                                         </div>
@@ -348,13 +367,13 @@ export default function RequestsPage(): React.ReactElement {
                                 {/* Right: Status + Claim / Author action */}
                                 <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
                                     {req.status === 'Claimed' ? (
-                                        <div className="text-right">
+                                        <div className="text-end">
                                             <span className="chip border border-accent bg-accent-sunk text-accent font-semibold text-[11px]">
-                                                Claimed
+                                                {t.claimedBadge}
                                             </span>
                                             {req.claimedByOrg && (
                                                 <p className="type-disclosure text-ink-faint mt-1">
-                                                    by {req.claimedByOrg}
+                                                    {t.byOrg} {req.claimedByOrg}
                                                 </p>
                                             )}
                                         </div>
@@ -365,13 +384,13 @@ export default function RequestsPage(): React.ReactElement {
                                                 onClick={() => setClaimRequestId(req.id)}
                                                 className="btn btn-secondary btn-sm"
                                             >
-                                                Claim
+                                                {t.claimBtn}
                                             </button>
                                             <Link
                                                 href="/publish"
                                                 className="btn btn-primary btn-sm"
                                             >
-                                                Author this
+                                                {t.authorThisBtn}
                                             </Link>
                                         </div>
                                     )}
@@ -382,7 +401,7 @@ export default function RequestsPage(): React.ReactElement {
 
                     {filtered.length === 0 && (
                         <div className="rounded-[8px] border border-dashed border-rule-strong bg-surface p-12 text-center">
-                            <p className="type-display-3 text-ink">No requests match this filter.</p>
+                            <p className="type-display-3 text-ink">{t.noRequestsMatch}</p>
                             <button
                                 type="button"
                                 onClick={() => {
@@ -391,7 +410,7 @@ export default function RequestsPage(): React.ReactElement {
                                 }}
                                 className="btn btn-secondary mt-4"
                             >
-                                Clear filters
+                                {t.clearFiltersBtn}
                             </button>
                         </div>
                     )}
@@ -401,16 +420,16 @@ export default function RequestsPage(): React.ReactElement {
                 {claimRequestId && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
                         <div className="w-full max-w-md rounded-[8px] border border-rule bg-surface p-6">
-                            <h3 className="type-display-3 text-ink mb-2">Claim this request</h3>
+                            <h3 className="type-display-3 text-ink mb-2">{t.claimRequestTitle}</h3>
                             <p className="type-meta text-ink-muted mb-4">
-                                State your organisation or department so colleagues know this method is being drafted.
+                                {t.claimRequestDesc}
                             </p>
                             <form onSubmit={handleClaimSubmit}>
                                 <input
                                     type="text"
                                     value={claimOrg}
                                     onChange={(e) => setClaimOrg(e.target.value)}
-                                    placeholder="e.g. Ministry programme office or Bank compliance"
+                                    placeholder={t.claimOrgPlaceholder}
                                     required
                                     autoFocus
                                     className="w-full rounded-[4px] border border-rule bg-paper px-3 py-2 type-body text-ink mb-4 focus:border-accent"
@@ -424,10 +443,10 @@ export default function RequestsPage(): React.ReactElement {
                                         }}
                                         className="btn btn-secondary btn-sm"
                                     >
-                                        Cancel
+                                        {t.cancel}
                                     </button>
                                     <button type="submit" className="btn btn-primary btn-sm">
-                                        Confirm claim
+                                        {t.confirmClaimBtn}
                                     </button>
                                 </div>
                             </form>

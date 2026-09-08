@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
-import { Source_Serif_4, IBM_Plex_Sans, IBM_Plex_Sans_Arabic } from 'next/font/google';
+import { Source_Serif_4, IBM_Plex_Sans } from 'next/font/google';
+import { thmanyahSans, thmanyahSerifDisplay, thmanyahSerifText } from '@/lib/fonts';
 
 import './globals.css';
+import { LanguageProvider } from '@/context/language-context';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 
@@ -19,32 +21,32 @@ const plexSans = IBM_Plex_Sans({
     display: 'swap',
 });
 
-const plexArabic = IBM_Plex_Sans_Arabic({
-    variable: '--font-plex-arabic',
-    subsets: ['arabic'],
-    weight: ['400', '500', '600'],
-    display: 'swap',
-});
-
 export const metadata: Metadata = {
-    title: 'Al-Maktaba · المكتبة',
+    title: 'المكتبة · Al-Maktaba',
     description:
-        'A shared library of AI work methods for Saudi organisations. Published once, reused by anyone doing the same job.',
+        'مكتبة مشتركة لأساليب عمل الذكاء الاصطناعي للمنظمات السعودية. تُنشر مرة واحدة، ويستفيد منها الجميع. A shared library of AI work methods for Saudi organisations.',
     icons: {
         icon: '/icon.svg',
     },
 };
 
-export default function RootLayout({ children }: LayoutProps<'/'>): React.ReactElement {
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}): React.ReactElement {
     return (
         <html
-            lang="en"
-            className={`${sourceSerif.variable} ${plexSans.variable} ${plexArabic.variable} h-full`}
+            lang="ar"
+            dir="rtl"
+            className={`${sourceSerif.variable} ${plexSans.variable} ${thmanyahSans.variable} ${thmanyahSerifDisplay.variable} ${thmanyahSerifText.variable} h-full`}
         >
             <body className="min-h-full flex flex-col bg-paper text-ink">
-                <SiteHeader />
-                <main className="flex-1">{children}</main>
-                <SiteFooter />
+                <LanguageProvider>
+                    <SiteHeader />
+                    <main className="flex-1">{children}</main>
+                    <SiteFooter />
+                </LanguageProvider>
             </body>
         </html>
     );

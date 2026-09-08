@@ -1,7 +1,10 @@
-import type { IMethod } from '@/data/types';
-import { cn, formatMinutes, formatRating } from '@/lib/utils';
+'use client';
 
-/** Renders a method title with correct dir/lang so Arabic sets in place, at parity. */
+import type { IMethod } from '@/data/types';
+import { cn, formatMinutes } from '@/lib/utils';
+import { useLanguage } from '@/context/language-context';
+
+/** Renders a method title with correct dir/lang and Thmanyah Serif Display for Arabic. */
 export function MethodTitle({
     method,
     className,
@@ -9,14 +12,42 @@ export function MethodTitle({
     method: IMethod;
     className?: string;
 }): React.ReactElement {
-    const isArabic = method.titleLang === 'ar';
+    const isArabic =
+        method.titleLang === 'ar' ||
+        method.language === 'Arabic' ||
+        /[\u0600-\u06FF]/.test(method.title);
+
     return (
         <span
             lang={isArabic ? 'ar' : 'en'}
             dir={isArabic ? 'rtl' : 'ltr'}
-            className={cn(isArabic && 'font-arabic', className)}
+            className={cn(isArabic ? 'font-arabic-display' : 'font-display', className)}
         >
             {method.title}
+        </span>
+    );
+}
+
+/** Renders a method description with matching Thmanyah Sans for Arabic. */
+export function MethodDescription({
+    method,
+    className,
+}: {
+    method: IMethod;
+    className?: string;
+}): React.ReactElement {
+    const isArabic =
+        method.titleLang === 'ar' ||
+        method.language === 'Arabic' ||
+        /[\u0600-\u06FF]/.test(method.description);
+
+    return (
+        <span
+            lang={isArabic ? 'ar' : 'en'}
+            dir={isArabic ? 'rtl' : 'ltr'}
+            className={cn(isArabic ? 'font-arabic' : '', className)}
+        >
+            {method.description}
         </span>
     );
 }
@@ -29,11 +60,13 @@ export function ReuseCount({
     count: number;
     className?: string;
 }): React.ReactElement {
+    const { isRTL } = useLanguage();
+
     return (
         <span className={cn('tabular-nums font-semibold text-accent', className)}>
             {count}
-            <span className="type-meta ml-1 font-normal text-ink-faint">
-                {count === 1 ? 'reuse' : 'reuses'}
+            <span className="type-meta ms-1 font-normal text-ink-faint">
+                {isRTL ? 'استخدام' : count === 1 ? 'reuse' : 'reuses'}
             </span>
         </span>
     );
@@ -58,14 +91,19 @@ export function RatingLine({
     method: IMethod;
     className?: string;
 }): React.ReactElement {
+    const { isRTL } = useLanguage();
+
     return (
         <span className={cn('type-meta tabular-nums text-ink-muted', className)}>
-            {formatRating(method.rating.score, method.rating.count)}
+            ★ {method.rating.score > 0 ? method.rating.score.toFixed(1) : '—'}
+            <span className="text-ink-faint ms-1">
+                ({method.rating.count} {isRTL ? 'تقييم' : 'ratings'})
+            </span>
         </span>
     );
 }
 
-/** The 3px sector shelf marker on the left edge of a catalogue row. */
+/** The 3px/4px sector shelf marker on the leading edge of a catalogue row. */
 export function ShelfMarker({
     color,
     className,
@@ -76,7 +114,7 @@ export function ShelfMarker({
     return (
         <span
             aria-hidden
-            className={cn('block w-[3px] shrink-0 self-stretch', className)}
+            className={cn('block w-[4px] shrink-0 self-stretch transition-all', className)}
             style={{ backgroundColor: color }}
         />
     );

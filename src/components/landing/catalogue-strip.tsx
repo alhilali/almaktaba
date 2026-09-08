@@ -1,11 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 
 import { getMethod } from '@/data/methods';
 import { getSector } from '@/data/sectors';
 import { getRole } from '@/data/roles';
+import { useLanguage } from '@/context/language-context';
 import { MethodTitle, ReuseCount, ShelfMarker } from '@/components/method-bits';
 
-/** Six catalogue rows, Arabic and English interleaved — the product premise. */
 const STRIP_IDS = [
     'gov-arabic-correspondence',
     'banking-credit-memo',
@@ -16,25 +18,30 @@ const STRIP_IDS = [
 ];
 
 function StripRow({ id }: { id: string }): React.ReactElement | null {
+    const { isRTL } = useLanguage();
     const method = getMethod(id);
     if (!method) {
         return null;
     }
     const sector = getSector(method.sectorId);
     const role = getRole(method.roleId);
+    const roleName = isRTL ? role?.nameAr || role?.name : role?.name;
+
     return (
         <Link
             href={`/library/${method.id}`}
-            className="flex items-stretch border-b border-rule bg-surface transition-colors hover:bg-surface-sunk/60"
+            className="flex items-stretch border-b border-rule bg-surface transition-colors hover:bg-surface-sunk/70 group"
         >
             <ShelfMarker color={sector?.color ?? 'transparent'} />
             <span className="flex flex-1 items-center gap-3 px-4 py-3.5">
                 <span className="min-w-0 flex-1">
                     <MethodTitle
                         method={method}
-                        className="type-body block truncate font-medium text-ink"
+                        className="type-body block truncate font-medium text-ink group-hover:text-accent"
                     />
-                    <span className="type-meta block truncate text-ink-faint">{role?.name}</span>
+                    <span className="type-meta block truncate text-ink-faint mt-0.5">
+                        {roleName}
+                    </span>
                 </span>
                 <ReuseCount count={method.reuseCount} />
             </span>
@@ -42,23 +49,24 @@ function StripRow({ id }: { id: string }): React.ReactElement | null {
     );
 }
 
-/**
- * The hero catalogue strip. A tall column that scrolls upward and loops; on
- * mobile it becomes a horizontal scroller. The track is duplicated so the loop
- * is seamless. Frozen under prefers-reduced-motion (handled in CSS).
- */
 export function CatalogueStrip(): React.ReactElement {
+    const { t } = useLanguage();
     const rows = [...STRIP_IDS, ...STRIP_IDS];
+
     return (
-        <div className="overflow-hidden rounded-[8px] border border-rule bg-surface">
-            <div className="flex items-center justify-between border-b border-rule-strong bg-surface-sunk px-4 py-2">
-                <span className="type-label text-ink-muted">From the shelves</span>
-                <span className="type-disclosure text-ink-faint">live catalogue</span>
+        <div className="overflow-hidden rounded-[8px] border border-rule bg-surface shadow-sm">
+            <div className="flex items-center justify-between border-b border-rule-strong bg-surface-sunk px-4 py-2.5">
+                <span className="type-label font-medium text-ink-muted">
+                    {t('fromTheShelves')}
+                </span>
+                <span className="chip bg-accent-sunk text-accent text-[11px] font-semibold">
+                    {t('liveCatalogue')}
+                </span>
             </div>
 
-            {/* Desktop / tablet: vertical scroll */}
-            <div className="relative hidden h-[420px] overflow-hidden sm:block">
-                <div className="marquee-track">
+            {/* Desktop / tablet: vertical scroll with hover pause */}
+            <div className="relative hidden h-[420px] overflow-hidden sm:block group">
+                <div className="marquee-track group-hover:[animation-play-state:paused]">
                     {rows.map((id, index) => (
                         <StripRow key={`${id}-${index}`} id={id} />
                     ))}
@@ -80,13 +88,13 @@ export function CatalogueStrip(): React.ReactElement {
                         <Link
                             key={id}
                             href={`/library/${id}`}
-                            className="flex w-56 shrink-0 flex-col rounded-[8px] border border-rule bg-surface"
+                            className="flex w-56 shrink-0 flex-col rounded-[8px] border border-rule bg-surface p-3"
                         >
                             <span
                                 className="h-1 w-full rounded-t-[8px]"
                                 style={{ backgroundColor: sector?.color }}
                             />
-                            <span className="flex flex-1 flex-col gap-2 p-3">
+                            <span className="flex flex-1 flex-col gap-2 pt-2">
                                 <MethodTitle
                                     method={method}
                                     className="type-body font-medium text-ink"

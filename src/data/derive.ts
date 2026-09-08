@@ -49,6 +49,7 @@ export function summaryTiles(methods: IMethod[] = METHODS): ISummaryTiles {
 export interface ISectorCount {
     sectorId: string;
     name: string;
+    nameAr: string;
     color: string;
     count: number;
     totalReuse: number;
@@ -63,6 +64,7 @@ export function sectorCounts(methods: IMethod[] = METHODS): ISectorCount[] {
         return {
             sectorId: sector.id,
             name: sector.name,
+            nameAr: sector.nameAr,
             color: sector.color,
             count: inSector.length,
             totalReuse,

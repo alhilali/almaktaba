@@ -1,6 +1,7 @@
 'use client';
 
 import { useSyncExternalStore, useState } from 'react';
+import { useLanguage } from '@/context/language-context';
 
 const STORAGE_KEY = 'almaktaba.sample-banner.dismissed';
 
@@ -29,6 +30,7 @@ function getServerSnapshot(): boolean {
 export function SampleDataBanner(): React.ReactElement | null {
     const isStoredDismissed = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
     const [isDismissedLocally, setIsDismissedLocally] = useState(false);
+    const { t, isRTL } = useLanguage();
 
     if (isStoredDismissed || isDismissedLocally) {
         return null;
@@ -39,7 +41,7 @@ export function SampleDataBanner(): React.ReactElement | null {
         try {
             window.localStorage.setItem(STORAGE_KEY, '1');
         } catch {
-            /* storage unavailable — banner simply reappears next load */
+            /* storage unavailable */
         }
     }
 
@@ -47,8 +49,12 @@ export function SampleDataBanner(): React.ReactElement | null {
         <div className="border-b border-measure/25 bg-measure-sunk">
             <div className="mx-auto flex max-w-[1180px] items-center gap-4 px-5 py-2.5 md:px-8">
                 <p className="type-meta flex-1 text-measure">
-                    <span className="font-semibold">Sample data.</span> Figures illustrate the
-                    interface, not measured results.
+                    <span className="font-semibold">
+                        {isRTL ? 'بيانات توضيحية.' : 'Sample data.'}
+                    </span>{' '}
+                    {isRTL
+                        ? 'الأرقام لتوضيح الواجهة وليست نتائج مقاسة.'
+                        : 'Figures illustrate the interface, not measured results.'}
                 </p>
                 <button
                     type="button"
@@ -56,7 +62,7 @@ export function SampleDataBanner(): React.ReactElement | null {
                     className="type-meta shrink-0 font-medium text-measure/80 hover:text-measure"
                     aria-label="Dismiss sample-data notice"
                 >
-                    Dismiss
+                    {t('dismiss')}
                 </button>
             </div>
         </div>

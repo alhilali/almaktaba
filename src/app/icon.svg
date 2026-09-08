@@ -1,11 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-    <circle cx="196" cy="212" r="118" stroke="#0F5450" stroke-width="34" />
-    <circle cx="196" cy="212" r="46" fill="#0F5450" />
-    <path
-        d="M290 286 C332 330 360 356 420 356 L468 356"
-        stroke="#0F5450"
-        stroke-width="34"
-        stroke-linecap="square"
-    />
-    <line x1="44" y1="396" x2="468" y2="396" stroke="#0F5450" stroke-width="14" />
+    <!-- Pediment (Roof) -->
+    <path d="M256 56 L448 152 L64 152 Z" fill="#0F5450" />
+    <path d="M256 96 L376 152 L136 152 Z" fill="#FFFFFF" fill-opacity="0.15" />
+    
+    <!-- Entablature (Architrave & Frieze) -->
+    <rect x="56" y="152" width="400" height="24" rx="3" fill="#0F5450" />
+    
+    <!-- Open Book Crest in Pediment Center -->
+    <path d="M256 128 C244 122 228 122 216 124 L216 142 C228 140 244 140 256 146 C268 140 284 140 296 142 L296 124 C284 122 268 122 256 128 Z" fill="#F5EEDC" />
+    
+    <!-- Four Grand Library Columns -->
+    <!-- Column 1 -->
+    <rect x="88" y="176" width="36" height="200" rx="2" fill="#0F5450" />
+    <rect x="82" y="176" width="48" height="12" rx="2" fill="#0C4643" />
+    <rect x="82" y="364" width="48" height="12" rx="2" fill="#0C4643" />
+    <line x1="106" y1="188" x2="106" y2="364" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="3" />
+    
+    <!-- Column 2 -->
+    <rect x="180" y="176" width="36" height="200" rx="2" fill="#0F5450" />
+    <rect x="174" y="176" width="48" height="12" rx="2" fill="#0C4643" />
+    <rect x="174" y="364" width="48" height="12" rx="2" fill="#0C4643" />
+    <line x1="198" y1="188" x2="198" y2="364" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="3" />
+    
+    <!-- Column 3 -->
+    <rect x="296" y="176" width="36" height="200" rx="2" fill="#0F5450" />
+    <rect x="290" y="176" width="48" height="12" rx="2" fill="#0C4643" />
+    <rect x="290" y="364" width="48" height="12" rx="2" fill="#0C4643" />
+    <line x1="314" y1="188" x2="314" y2="364" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="3" />
+    
+    <!-- Column 4 -->
+    <rect x="388" y="176" width="36" height="200" rx="2" fill="#0F5450" />
+    <rect x="382" y="176" width="48" height="12" rx="2" fill="#0C4643" />
+    <rect x="382" y="364" width="48" height="12" rx="2" fill="#0C4643" />
+    <line x1="406" y1="188" x2="406" y2="364" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="3" />
+    
+    <!-- Grand Library Arch Entrance (Center) with Bookshelf Grid -->
+    <path d="M228 376 L228 256 C228 240 240 228 256 228 C272 228 284 240 284 256 L284 376 Z" fill="#E4EFED" />
+    <!-- Stack of Shelved Reference Books in Arch -->
+    <rect x="238" y="270" width="36" height="7" rx="1.5" fill="#8A6516" />
+    <rect x="238" y="283" width="36" height="7" rx="1.5" fill="#0F5450" />
+    <rect x="238" y="296" width="36" height="7" rx="1.5" fill="#4A6D8C" />
+    <rect x="238" y="309" width="36" height="7" rx="1.5" fill="#6B5B8A" />
+    <rect x="238" y="322" width="36" height="7" rx="1.5" fill="#2F5D50" />
+    <!-- Vertical Book Spine in Arch -->
+    <rect x="240" y="335" width="8" height="36" rx="1" fill="#8A6516" />
+    <rect x="250" y="335" width="8" height="36" rx="1" fill="#0F5450" />
+    <rect x="260" y="338" width="8" height="33" rx="1" fill="#6B5B8A" />
+    
+    <!-- Podium & Stairs (3 Plinths) -->
+    <rect x="64" y="376" width="384" height="20" rx="3" fill="#0F5450" />
+    <rect x="44" y="396" width="424" height="24" rx="3" fill="#0C4643" />
+    <rect x="24" y="420" width="464" height="28" rx="4" fill="#16202A" />
 </svg>

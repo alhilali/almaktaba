@@ -15,6 +15,9 @@ import { summaryTiles } from '@/data/derive';
 import { formatMinutes, formatCount, cn } from '@/lib/utils';
 import { SampleDataBanner } from '@/components/sample-data-banner';
 import { IllustrativeChip } from '@/components/illustrative-chip';
+import { useLanguage } from '@/context/language-context';
+import { getSector } from '@/data/sectors';
+import { getRole } from '@/data/roles';
 
 /**
  * Executive insights view (spec §5.5).
@@ -22,6 +25,7 @@ import { IllustrativeChip } from '@/components/illustrative-chip';
  * instead of legends. Sits inside the wider AI Absorption programme.
  */
 export default function InsightsPage(): React.ReactElement {
+    const { lang, t, dir } = useLanguage();
     const tiles = useMemo(() => summaryTiles(), []);
     const sectorData = useMemo(() => reusePerSector(), []);
     const roleData = useMemo(() => timeReductionByRole(), []);
@@ -29,6 +33,14 @@ export default function InsightsPage(): React.ReactElement {
 
     const maxSectorReuse = Math.max(...sectorData.map((d) => d.reusePerMethod), 3.0);
     const maxBeforeMin = Math.max(...roleData.map((d) => d.beforeMin), 60);
+
+    const ladderLabels: Record<string, string> = {
+        access: t.ladderAccess,
+        activation: t.ladderActivation,
+        habit: t.ladderHabit,
+        integration: lang === 'ar' ? 'التكامل' : 'Integration',
+        impact: t.ladderImpact,
+    };
 
     return (
         <>
@@ -38,10 +50,9 @@ export default function InsightsPage(): React.ReactElement {
                 {/* Header */}
                 <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
                     <div>
-                        <h1 className="type-display-2 text-ink">Insights & benchmarks</h1>
+                        <h1 className="type-display-2 text-ink">{t.insightsTitle}</h1>
                         <p className="type-meta mt-1 max-w-[720px] text-ink-muted">
-                            Executive telemetry on organisational AI absorption. Measures verified asset
-                            reuse and returned working time across sectors and role families.
+                            {t.insightsSubtitle}
                         </p>
                     </div>
                     <IllustrativeChip />
@@ -50,32 +61,32 @@ export default function InsightsPage(): React.ReactElement {
                 {/* Summary KPI Tiles */}
                 <div className="mb-10 grid grid-cols-2 gap-px overflow-hidden rounded-[8px] border border-rule bg-rule lg:grid-cols-4">
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Methods catalogued</div>
+                        <div className="type-disclosure text-ink-faint">{t.methodsCatalogued}</div>
                         <div className="type-display-3 mt-1 tabular-nums text-ink">
                             {tiles.published}
                         </div>
-                        <p className="type-disclosure mt-1 text-ink-muted">Across 10 sectors</p>
+                        <p className="type-disclosure mt-1 text-ink-muted">{t.across10Sectors}</p>
                     </div>
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Verified reuses</div>
+                        <div className="type-disclosure text-ink-faint">{t.verifiedReuses}</div>
                         <div className="type-display-3 mt-1 tabular-nums text-accent">
                             {tiles.totalReuses}
                         </div>
-                        <p className="type-disclosure mt-1 text-ink-muted">Distinct person-runs</p>
+                        <p className="type-disclosure mt-1 text-ink-muted">{t.distinctPersonRuns}</p>
                     </div>
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Time returned</div>
+                        <div className="type-disclosure text-ink-faint">{t.timeReturned}</div>
                         <div className="type-display-3 mt-1 tabular-nums text-measure">
-                            {formatCount(tiles.hoursReturned)} hrs
+                            {formatCount(tiles.hoursReturned)} {t.hours}
                         </div>
-                        <p className="type-disclosure mt-1 text-ink-muted">Calculated per verified run</p>
+                        <p className="type-disclosure mt-1 text-ink-muted">{t.calculatedPerRun}</p>
                     </div>
                     <div className="bg-surface p-4">
-                        <div className="type-disclosure text-ink-faint">Average reuse ratio</div>
+                        <div className="type-disclosure text-ink-faint">{t.avgReuseRatio}</div>
                         <div className="type-display-3 mt-1 tabular-nums text-ink">
                             {tiles.avgReusePerMethod}
                         </div>
-                        <p className="type-disclosure mt-1 text-accent">Above 2.0 baseline</p>
+                        <p className="type-disclosure mt-1 text-accent">{t.aboveBaseline}</p>
                     </div>
                 </div>
 
@@ -84,9 +95,9 @@ export default function InsightsPage(): React.ReactElement {
                     <section className="rounded-[8px] border border-rule bg-surface p-6 md:p-8">
                         <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-4">
                             <div>
-                                <h2 className="type-display-3 text-ink">Reuse per method by sector</h2>
+                                <h2 className="type-display-3 text-ink">{t.reusePerSectorTitle}</h2>
                                 <p className="type-meta mt-1 text-ink-muted">
-                                    Horizontal bars compared against the 2.0 reference line.
+                                    {t.reusePerSectorSub}
                                 </p>
                             </div>
                             <IllustrativeChip />
@@ -94,6 +105,8 @@ export default function InsightsPage(): React.ReactElement {
 
                         <div className="space-y-4">
                             {sectorData.map((sector) => {
+                                const sectorInfo = getSector(sector.sectorId);
+                                const sectorName = lang === 'ar' && sectorInfo?.nameAr ? sectorInfo.nameAr : sector.name;
                                 const barWidth = (sector.reusePerMethod / maxSectorReuse) * 100;
                                 const isAboveLine = sector.reusePerMethod >= REUSE_REFERENCE_LINE;
 
@@ -107,10 +120,10 @@ export default function InsightsPage(): React.ReactElement {
                                                     style={{ backgroundColor: sector.color }}
                                                 />
                                                 <span className="font-medium text-ink">
-                                                    {sector.name}
+                                                    {sectorName}
                                                 </span>
                                                 <span className="text-ink-faint">
-                                                    ({sector.count} {sector.count === 1 ? 'method' : 'methods'})
+                                                    ({sector.count} {lang === 'ar' ? t.methods : sector.count === 1 ? 'method' : 'methods'})
                                                 </span>
                                             </div>
                                             <span
@@ -119,16 +132,19 @@ export default function InsightsPage(): React.ReactElement {
                                                     isAboveLine ? 'text-accent' : 'text-ink-muted',
                                                 )}
                                             >
-                                                {sector.reusePerMethod.toFixed(1)} / method
+                                                {sector.reusePerMethod.toFixed(1)} {t.perMethod}
                                             </span>
                                         </div>
 
                                         <div className="relative h-6 rounded-[4px] bg-surface-sunk overflow-hidden">
                                             {/* Reference line marker (2.0) */}
                                             <div
-                                                className="absolute inset-y-0 z-10 border-r-2 border-dashed border-rule-strong"
+                                                className={cn(
+                                                    'absolute inset-y-0 z-10 border-dashed border-rule-strong',
+                                                    dir === 'rtl' ? 'border-l-2' : 'border-r-2',
+                                                )}
                                                 style={{
-                                                    left: `${(REUSE_REFERENCE_LINE / maxSectorReuse) * 100}%`,
+                                                    [dir === 'rtl' ? 'right' : 'left']: `${(REUSE_REFERENCE_LINE / maxSectorReuse) * 100}%`,
                                                 }}
                                                 title={`Reference baseline: ${REUSE_REFERENCE_LINE}`}
                                             />
@@ -149,12 +165,10 @@ export default function InsightsPage(): React.ReactElement {
                         {/* Reference line footer callout */}
                         <div className="mt-6 flex items-start gap-3 rounded-[4px] border border-rule bg-surface-sunk/50 p-3.5">
                             <div className="type-meta font-semibold text-accent shrink-0">
-                                2.0 Baseline:
+                                {t.baselineNoticeTitle}
                             </div>
                             <p className="type-disclosure text-ink-muted">
-                                Below roughly 2.0 a library has become a dumping ground — methods are published
-                                but rarely picked up by colleagues. Sectors operating above 2.0 demonstrate genuine
-                                cross-worker knowledge transfer.
+                                {t.baselineNoticeText}
                             </p>
                         </div>
                     </section>
@@ -163,9 +177,9 @@ export default function InsightsPage(): React.ReactElement {
                     <section className="rounded-[8px] border border-rule bg-surface p-6 md:p-8">
                         <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-4">
                             <div>
-                                <h2 className="type-display-3 text-ink">Time reduction by role family</h2>
+                                <h2 className="type-display-3 text-ink">{t.timeReductionTitle}</h2>
                                 <p className="type-meta mt-1 text-ink-muted">
-                                    Typical task duration before and after adopting catalogued methods, sorted by time saved.
+                                    {t.timeReductionSub}
                                 </p>
                             </div>
                             <IllustrativeChip />
@@ -173,6 +187,8 @@ export default function InsightsPage(): React.ReactElement {
 
                         <div className="divide-y divide-rule">
                             {roleData.map((role) => {
+                                const roleInfo = getRole(role.roleId);
+                                const roleName = lang === 'ar' && roleInfo?.nameAr ? roleInfo.nameAr : role.name;
                                 const beforePct = (role.beforeMin / maxBeforeMin) * 100;
                                 const afterPct = (role.afterMin / maxBeforeMin) * 100;
 
@@ -181,18 +197,18 @@ export default function InsightsPage(): React.ReactElement {
                                         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
                                             <div className="flex items-center gap-2.5">
                                                 <span className="type-label font-medium text-ink">
-                                                    {role.name}
+                                                    {roleName}
                                                 </span>
                                                 <span className="chip bg-surface-sunk text-ink-faint text-[11px]">
-                                                    {role.aiAddressable}% AI-addressable
+                                                    {role.aiAddressable}% {t.aiAddressable}
                                                 </span>
                                             </div>
                                             <div className="type-meta tabular-nums">
                                                 <span className="text-ink-muted">
                                                     {formatMinutes(role.beforeMin)} → {formatMinutes(role.afterMin)}
                                                 </span>
-                                                <span className="ml-2 font-semibold text-measure">
-                                                    (saved {formatMinutes(role.savedMin)})
+                                                <span className="mx-2 font-semibold text-measure">
+                                                    {dir === 'rtl' ? `${t.saved} ${formatMinutes(role.savedMin)}` : `(saved ${formatMinutes(role.savedMin)})`}
                                                 </span>
                                             </div>
                                         </div>
@@ -201,7 +217,7 @@ export default function InsightsPage(): React.ReactElement {
                                         <div className="space-y-1.5">
                                             <div className="flex items-center gap-2">
                                                 <span className="w-14 shrink-0 type-disclosure text-ink-faint">
-                                                    Before
+                                                    {t.before}
                                                 </span>
                                                 <div className="relative h-3 flex-1 rounded-[2px] bg-surface-sunk overflow-hidden">
                                                     <div
@@ -209,13 +225,13 @@ export default function InsightsPage(): React.ReactElement {
                                                         style={{ width: `${beforePct}%` }}
                                                     />
                                                 </div>
-                                                <span className="w-16 shrink-0 type-disclosure tabular-nums text-right text-ink-faint">
+                                                <span className="w-16 shrink-0 type-disclosure tabular-nums text-end text-ink-faint">
                                                     {formatMinutes(role.beforeMin)}
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <span className="w-14 shrink-0 type-disclosure text-ink-faint">
-                                                    After
+                                                    {t.after}
                                                 </span>
                                                 <div className="relative h-3 flex-1 rounded-[2px] bg-surface-sunk overflow-hidden">
                                                     <div
@@ -223,7 +239,7 @@ export default function InsightsPage(): React.ReactElement {
                                                         style={{ width: `${afterPct}%` }}
                                                     />
                                                 </div>
-                                                <span className="w-16 shrink-0 type-disclosure tabular-nums text-right text-measure font-medium">
+                                                <span className="w-16 shrink-0 type-disclosure tabular-nums text-end text-measure font-medium">
                                                     {formatMinutes(role.afterMin)}
                                                 </span>
                                             </div>
@@ -235,9 +251,7 @@ export default function InsightsPage(): React.ReactElement {
 
                         <div className="mt-6 border-t border-rule pt-4">
                             <p className="type-disclosure text-ink-faint">
-                                Showing the AI-addressable share alongside each role sets honest expectations: roles with lower
-                                addressability (e.g. Operations &amp; Field at 25%) should not be read as laggards against roles
-                                like Marketing (85%).
+                                {t.timeReductionFootnote}
                             </p>
                         </div>
                     </section>
@@ -249,9 +263,9 @@ export default function InsightsPage(): React.ReactElement {
                             <div>
                                 <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-4">
                                     <div>
-                                        <h2 className="type-display-3 text-ink">Adoption ladder distribution</h2>
+                                        <h2 className="type-display-3 text-ink">{t.adoptionLadderTitle}</h2>
                                         <p className="type-meta mt-1 text-ink-muted">
-                                            Workforce population share at each stage.
+                                            {t.adoptionLadderSub}
                                         </p>
                                     </div>
                                     <IllustrativeChip />
@@ -281,11 +295,11 @@ export default function InsightsPage(): React.ReactElement {
                                                                 : 'text-ink',
                                                         )}
                                                     >
-                                                        {rung.label}
+                                                        {ladderLabels[rung.key] || rung.label}
                                                     </span>
                                                     {rung.isMaktabaRung && (
                                                         <span className="chip border border-accent bg-surface text-accent text-[11px] font-semibold">
-                                                            Al-Maktaba focus
+                                                            {t.maktabaFocus}
                                                         </span>
                                                     )}
                                                 </div>
@@ -314,8 +328,7 @@ export default function InsightsPage(): React.ReactElement {
 
                             <div className="mt-6 border-t border-rule pt-4">
                                 <p className="type-disclosure text-ink-faint">
-                                    From the AI Absorption framework developed by the programme team. While access
-                                    spreads organically, integration (habitual asset reuse across roles) represents the systemic bottleneck.
+                                    {t.adoptionLadderFootnote}
                                 </p>
                             </div>
                         </section>
@@ -325,9 +338,9 @@ export default function InsightsPage(): React.ReactElement {
                             <div>
                                 <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-4">
                                     <div>
-                                        <h2 className="type-display-3 text-ink">Reuse boundary split</h2>
+                                        <h2 className="type-display-3 text-ink">{t.reuseSplitTitle}</h2>
                                         <p className="type-meta mt-1 text-ink-muted">
-                                            Internal tenancy versus cross-organisation reuse.
+                                            {t.reuseSplitSub}
                                         </p>
                                     </div>
                                     <IllustrativeChip />
@@ -340,14 +353,14 @@ export default function InsightsPage(): React.ReactElement {
                                             <div
                                                 style={{ width: `${REUSE_SPLIT[0].share}%` }}
                                                 className="bg-accent flex items-center justify-center text-white text-xs font-medium"
-                                                title={`${REUSE_SPLIT[0].label}: ${REUSE_SPLIT[0].share}%`}
+                                                title={`${lang === 'ar' ? t.internalTenancy : REUSE_SPLIT[0].label}: ${REUSE_SPLIT[0].share}%`}
                                             >
                                                 {REUSE_SPLIT[0].share}%
                                             </div>
                                             <div
                                                 style={{ width: `${REUSE_SPLIT[1].share}%` }}
                                                 className="bg-rule-strong flex items-center justify-center text-ink text-xs font-medium"
-                                                title={`${REUSE_SPLIT[1].label}: ${REUSE_SPLIT[1].share}%`}
+                                                title={`${lang === 'ar' ? t.crossOrg : REUSE_SPLIT[1].label}: ${REUSE_SPLIT[1].share}%`}
                                             >
                                                 {REUSE_SPLIT[1].share}%
                                             </div>
@@ -358,7 +371,7 @@ export default function InsightsPage(): React.ReactElement {
                                                 <div className="flex items-center gap-2">
                                                     <span className="h-3 w-3 rounded-full bg-accent" />
                                                     <span className="text-ink font-medium">
-                                                        {REUSE_SPLIT[0].label}
+                                                        {lang === 'ar' ? t.internalTenancy : REUSE_SPLIT[0].label}
                                                     </span>
                                                 </div>
                                                 <span className="font-semibold text-accent tabular-nums">
@@ -369,7 +382,7 @@ export default function InsightsPage(): React.ReactElement {
                                                 <div className="flex items-center gap-2">
                                                     <span className="h-3 w-3 rounded-full bg-rule-strong" />
                                                     <span className="text-ink-muted">
-                                                        {REUSE_SPLIT[1].label}
+                                                        {lang === 'ar' ? t.crossOrg : REUSE_SPLIT[1].label}
                                                     </span>
                                                 </div>
                                                 <span className="font-semibold text-ink-muted tabular-nums">
@@ -381,12 +394,10 @@ export default function InsightsPage(): React.ReactElement {
 
                                     <div className="rounded-[4px] border border-rule bg-surface-sunk/40 p-4">
                                         <h3 className="type-label text-ink font-semibold mb-1">
-                                            An honest metric
+                                            {t.honestMetricTitle}
                                         </h3>
                                         <p className="type-meta text-ink-muted">
-                                            Most reuse naturally occurs inside single organisations where context, taxonomy,
-                                            and data sensitivity clearances are pre-aligned. Pretending cross-entity reuse is high
-                                            would be an invented finding.
+                                            {t.honestMetricBody}
                                         </p>
                                     </div>
                                 </div>
@@ -394,7 +405,7 @@ export default function InsightsPage(): React.ReactElement {
 
                             <div className="mt-6 border-t border-rule pt-4">
                                 <p className="type-disclosure text-ink-faint">
-                                    Confidential methods stay inside organisation walls via the markdown export function.
+                                    {t.reuseSplitFootnote}
                                 </p>
                             </div>
                         </section>
@@ -404,9 +415,9 @@ export default function InsightsPage(): React.ReactElement {
                     <section className="rounded-[8px] border border-rule bg-surface p-6 md:p-8">
                         <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-4">
                             <div>
-                                <h2 className="type-display-3 text-ink">Language coverage by role family</h2>
+                                <h2 className="type-display-3 text-ink">{t.languageCoverageTitle}</h2>
                                 <p className="type-meta mt-1 text-ink-muted">
-                                    Distribution of Arabic (including bilingual) versus English-only methods.
+                                    {t.languageCoverageSub}
                                 </p>
                             </div>
                             <IllustrativeChip />
@@ -414,6 +425,8 @@ export default function InsightsPage(): React.ReactElement {
 
                         <div className="space-y-4">
                             {arabicData.map((item) => {
+                                const roleInfo = getRole(item.roleId);
+                                const roleName = lang === 'ar' && roleInfo?.nameAr ? roleInfo.nameAr : item.name;
                                 const total = item.arabic + item.english;
                                 const arabicPct = total > 0 ? (item.arabic / total) * 100 : 0;
                                 const englishPct = total > 0 ? (item.english / total) * 100 : 0;
@@ -421,11 +434,15 @@ export default function InsightsPage(): React.ReactElement {
                                 return (
                                     <div key={item.roleId} className="group">
                                         <div className="mb-1 flex items-center justify-between type-meta">
-                                            <span className="font-medium text-ink">{item.name}</span>
+                                            <span className="font-medium text-ink">{roleName}</span>
                                             <span className="tabular-nums text-ink-muted text-xs">
-                                                <span className="font-medium text-accent">{item.arabic} Arabic</span>
+                                                <span className="font-medium text-accent">
+                                                    {item.arabic} {lang === 'ar' ? 'عربي' : 'Arabic'}
+                                                </span>
                                                 {' · '}
-                                                <span>{item.english} English</span>
+                                                <span>
+                                                    {item.english} {lang === 'ar' ? 'إنجليزي' : 'English'}
+                                                </span>
                                             </span>
                                         </div>
 
@@ -434,14 +451,14 @@ export default function InsightsPage(): React.ReactElement {
                                                 <div
                                                     className="h-full bg-accent"
                                                     style={{ width: `${arabicPct}%` }}
-                                                    title={`${item.name}: ${item.arabic} Arabic / bilingual`}
+                                                    title={`${roleName}: ${item.arabic} ${lang === 'ar' ? 'عربي' : 'Arabic'}`}
                                                 />
                                             )}
                                             {item.english > 0 && (
                                                 <div
                                                     className="h-full bg-rule-strong"
                                                     style={{ width: `${englishPct}%` }}
-                                                    title={`${item.name}: ${item.english} English`}
+                                                    title={`${roleName}: ${item.english} ${lang === 'ar' ? 'إنجليزي' : 'English'}`}
                                                 />
                                             )}
                                         </div>
@@ -454,15 +471,15 @@ export default function InsightsPage(): React.ReactElement {
                             <div className="flex items-center gap-5 type-disclosure text-ink-muted">
                                 <span className="flex items-center gap-1.5">
                                     <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-                                    Arabic &amp; Bilingual
+                                    {t.arabicAndBilingual}
                                 </span>
                                 <span className="flex items-center gap-1.5">
                                     <span className="h-2.5 w-2.5 rounded-full bg-rule-strong" />
-                                    English only
+                                    {t.englishOnly}
                                 </span>
                             </div>
                             <Link href="/library" className="btn btn-secondary btn-sm">
-                                Explore catalogue
+                                {t.exploreCatalogue}
                             </Link>
                         </div>
                     </section>
@@ -472,13 +489,13 @@ export default function InsightsPage(): React.ReactElement {
             {/* Mobile bottom tab bar */}
             <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-3 border-t border-rule bg-surface lg:hidden">
                 <Link href="/library" className="py-3 text-center type-label text-ink-muted">
-                    Browse
+                    {t.navBrowse}
                 </Link>
                 <Link href="/publish" className="py-3 text-center type-label text-ink-muted">
-                    Create
+                    {t.navPublish}
                 </Link>
                 <Link href="/insights" className="py-3 text-center type-label text-accent">
-                    Insights
+                    {t.navInsights}
                 </Link>
             </nav>
         </>

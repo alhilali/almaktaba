@@ -1,11 +1,14 @@
+'use client';
+
 import Link from 'next/link';
 
-import { MeemMark } from '@/components/meem-mark';
+import { LibraryMark } from '@/components/library-mark';
+import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
 
 /**
- * The wordmark lockup: the mark, then المكتبة in the Arabic face and
- * Al-Maktaba in the Latin display face, sitting on a shared shelf rule.
+ * The wordmark lockup: the library mark, then المكتبة and Al-Maktaba.
+ * Adapts order and emphasis dynamically to the current language.
  */
 export function Wordmark({
     stacked = false,
@@ -14,6 +17,8 @@ export function Wordmark({
     stacked?: boolean;
     className?: string;
 }): React.ReactElement {
+    const { isRTL } = useLanguage();
+
     return (
         <Link
             href="/"
@@ -24,16 +29,22 @@ export function Wordmark({
                 className,
             )}
         >
-            <MeemMark size={stacked ? 44 : 30} className="text-accent shrink-0" />
-            <span className={cn('flex items-baseline gap-2.5', stacked && 'flex-col gap-1')}>
+            <LibraryMark size={stacked ? 44 : 32} className="text-accent shrink-0" />
+            <span
+                className={cn(
+                    'flex items-baseline gap-2.5',
+                    isRTL ? 'flex-row' : 'flex-row-reverse',
+                    stacked && 'flex-col gap-1',
+                )}
+            >
                 <span
                     lang="ar"
                     dir="rtl"
-                    className="font-arabic text-[19px] font-semibold leading-none"
+                    className="font-arabic text-[21px] font-bold leading-none tracking-tight text-ink"
                 >
                     المكتبة
                 </span>
-                <span className="font-display text-[19px] font-semibold leading-none tracking-tight">
+                <span className="font-display text-[18px] font-semibold leading-none tracking-tight text-ink-muted">
                     Al-Maktaba
                 </span>
             </span>

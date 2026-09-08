@@ -19,6 +19,7 @@ export type SectorColorVar = `var(--color-sector-${string})`;
 export interface ISector {
     id: string;
     name: string;
+    nameAr: string;
     dataSensitivity: DataSensitivity;
     /** Shelf-marker hue — used only as a 3px left edge and index dot. */
     color: SectorColorVar;
@@ -27,6 +28,7 @@ export interface ISector {
 export interface IRoleFamily {
     id: string;
     name: string;
+    nameAr: string;
     /** Share of this role's work that AI can realistically address. */
     aiAddressable: number;
     arabicIntensity: ArabicIntensity;
@@ -67,9 +69,11 @@ export interface IMethodVersion {
 export interface IMethod {
     id: string;
     title: string;
+    titleAr?: string;
     /** Language of the title/description strings, for dir + font parity. */
     titleLang: 'ar' | 'en';
     description: string;
+    descriptionAr?: string;
     author: string;
     organisation: string;
     version: string;
@@ -99,6 +103,7 @@ export interface IMethod {
 export interface IMethodRequest {
     id: string;
     task: string;
+    taskAr?: string;
     roleId: string;
     sectorId: string;
     language: Language;

@@ -1,6 +1,106 @@
 @import 'tailwindcss';
 
 /*
+ * Thmanyah Typeface Face Definitions
+ * High-performance self-hosted woff2 font faces for Arabic text.
+ */
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('/fonts/thmanyah/thmanyahsans/woff2/thmanyahsans-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('/fonts/thmanyah/thmanyahsans/woff2/thmanyahsans-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('/fonts/thmanyah/thmanyahsans/woff2/thmanyahsans-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('/fonts/thmanyah/thmanyahsans/woff2/thmanyahsans-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('/fonts/thmanyah/thmanyahsans/woff2/thmanyahsans-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Display';
+    src: url('/fonts/thmanyah/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Display';
+    src: url('/fonts/thmanyah/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Display';
+    src: url('/fonts/thmanyah/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Display';
+    src: url('/fonts/thmanyah/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Text';
+    src: url('/fonts/thmanyah/thmanyahseriftext/woff2/thmanyahseriftext-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Text';
+    src: url('/fonts/thmanyah/thmanyahseriftext/woff2/thmanyahseriftext-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Text';
+    src: url('/fonts/thmanyah/thmanyahseriftext/woff2/thmanyahseriftext-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*
  * Al-Maktaba design tokens.
  * Palette, type scale and rhythm are fixed by the build spec (§4).
  * Dark mode is deliberately out of scope.
@@ -38,7 +138,9 @@
     /* Type families */
     --font-display: var(--font-source-serif), Georgia, 'Times New Roman', serif;
     --font-sans: var(--font-plex-sans), system-ui, -apple-system, sans-serif;
-    --font-arabic: var(--font-plex-arabic), var(--font-plex-sans), system-ui, sans-serif;
+    --font-arabic: 'Thmanyah Sans', var(--font-thmanyah-sans), system-ui, sans-serif;
+    --font-arabic-display: 'Thmanyah Serif Display', var(--font-thmanyah-serif-display), serif;
+    --font-arabic-text: 'Thmanyah Serif Text', var(--font-thmanyah-serif-text), serif;
 
     /* Rhythm */
     --spacing-section: 96px;
@@ -64,8 +166,49 @@
         text-rendering: optimizeLegibility;
     }
 
-    /* Arabic text nodes carry [lang="ar"]; render at parity, never smaller. */
-    [lang='ar'] {
+    /* Arabic mode / RTL: Thmanyah is the unified typeface across all elements */
+    [dir='rtl'],
+    html[dir='rtl'] body,
+    body[dir='rtl'] {
+        font-family: var(--font-arabic);
+    }
+
+    [lang='ar'],
+    .font-arabic,
+    .font-arabic-sans {
+        font-family: var(--font-arabic) !important;
+    }
+
+    /* Arabic Display headings use Thmanyah Serif Display */
+    [dir='rtl'] h1,
+    [dir='rtl'] h2,
+    [dir='rtl'] h3,
+    [dir='rtl'] .type-display-1,
+    [dir='rtl'] .type-display-2,
+    [dir='rtl'] .type-display-3,
+    [lang='ar'] h1,
+    [lang='ar'] h2,
+    [lang='ar'] h3,
+    .font-arabic-display {
+        font-family: var(--font-arabic-display) !important;
+        letter-spacing: normal;
+    }
+
+    /* Arabic body, descriptions, inputs, buttons use Thmanyah Sans */
+    [dir='rtl'] p,
+    [dir='rtl'] .type-body,
+    [dir='rtl'] .type-body-lg,
+    [dir='rtl'] .type-meta,
+    [dir='rtl'] .type-label,
+    [dir='rtl'] .type-disclosure,
+    [dir='rtl'] button,
+    [dir='rtl'] input,
+    [dir='rtl'] select,
+    [dir='rtl'] textarea,
+    [lang='ar'] p,
+    [lang='ar'] .type-body,
+    [lang='ar'] .type-meta,
+    [lang='ar'] .type-label {
         font-family: var(--font-arabic);
     }
 
@@ -165,7 +308,7 @@
         height: 44px;
         padding: 0 20px;
         border-radius: 4px;
-        font-family: var(--font-sans);
+        font-family: inherit;
         font-size: 15px;
         font-weight: 500;
         line-height: 1;
