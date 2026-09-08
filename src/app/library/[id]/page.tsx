@@ -11,6 +11,9 @@ import { MethodTitle, MethodDescription } from '@/components/method-bits';
 import { LanguageChip, SensitivityChip, MaturityChip } from '@/components/chips';
 import { IllustrativeChip } from '@/components/illustrative-chip';
 import { MethodActions } from '@/components/method/method-actions';
+import { SampleShowcase } from '@/components/method/sample-showcase';
+import { SharedAgentsCard } from '@/components/method/shared-agents-card';
+import { PipelineCombinations } from '@/components/method/pipeline-combinations';
 
 export function generateStaticParams(): { id: string }[] {
     return METHODS.map((method) => ({ id: method.id }));
@@ -146,6 +149,10 @@ export default async function MethodDetailPage({
                 <p className="type-body text-ink leading-relaxed">{method.whatItDoes}</p>
             </Section>
 
+            <Section title="Sample Input & Output Showcase" titleAr="أمثلة المدخلات والمخرجات المعتمدة">
+                <SampleShowcase method={method} />
+            </Section>
+
             <Section title="Inputs required" titleAr="المدخلات المطلوبة للتشغيل">
                 <ul className="space-y-2">
                     {method.inputsRequired.map((input) => (
@@ -155,6 +162,14 @@ export default async function MethodDetailPage({
                         </li>
                     ))}
                 </ul>
+            </Section>
+
+            <Section title="Suggested Shared Agents" titleAr="الوكلاء المشتركون المقترحون لضبط الجودة والأمان">
+                <SharedAgentsCard method={method} />
+            </Section>
+
+            <Section title="Pipeline Combinations" titleAr="سلاسل العمل التراكمية وخطوط الإنتاج">
+                <PipelineCombinations method={method} />
             </Section>
 
             <Section title="What stays human" titleAr="ما يبقى بمسؤولية الإنسان">

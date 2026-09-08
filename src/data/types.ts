@@ -66,6 +66,50 @@ export interface IMethodVersion {
     isCurrent: boolean;
 }
 
+export interface ISampleExample {
+    title: string;
+    titleAr?: string;
+    format: string;
+    filename?: string;
+    content: string;
+}
+
+export interface ISharedAgent {
+    id: string;
+    name: string;
+    nameAr: string;
+    role: string;
+    roleAr: string;
+    badge: string;
+    badgeAr: string;
+    description: string;
+    descriptionAr: string;
+    tools: string[];
+    toolsAr?: string[];
+    color: string;
+}
+
+export interface IPipelineCombination {
+    methodId: string;
+    relationship: 'precedes' | 'follows' | 'complements';
+    role: string;
+    roleAr: string;
+}
+
+export interface ICliExecution {
+    command: string;
+    inputFlag: string;
+    notes?: string;
+    notesAr?: string;
+}
+
+export interface IUploadGuide {
+    label: string;
+    labelAr: string;
+    allowedFormats: string[];
+    exampleFilename: string;
+}
+
 export interface IMethod {
     id: string;
     title: string;
@@ -98,6 +142,17 @@ export interface IMethod {
     performance: IPerformance;
     reuseTrail: IReuseTrail;
     versionHistory: IMethodVersion[];
+    /** Concrete input & output examples for execution reference. */
+    sampleInput?: ISampleExample;
+    sampleOutput?: ISampleExample;
+    /** Suggested shared agents addressing cross-cutting concerns. */
+    suggestedAgents?: string[];
+    /** Complementary workflows that form multi-step agentic pipelines. */
+    pipelineCombinations?: IPipelineCombination[];
+    /** CLI execution snippet (e.g. agy run). */
+    cliExecution?: ICliExecution;
+    /** File upload guidelines for running the method. */
+    uploadGuide?: IUploadGuide;
 }
 
 export interface IMethodRequest {
