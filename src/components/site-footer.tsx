@@ -13,6 +13,7 @@ export function SiteFooter(): React.ReactElement {
         { href: '/insights', label: t('navInsights') },
         { href: '/publish', label: t('navPublish') },
         { href: '/requests', label: t('navRequests') },
+        { href: '/about', label: t('navAbout') },
     ];
 
     const frameworkLinks = [
@@ -83,6 +84,20 @@ export function SiteFooter(): React.ReactElement {
                     <p className="type-disclosure max-w-[320px] text-ink-faint">
                         {t('footerDisclosure')}
                     </p>
+                    <div className="mt-4 pt-3 border-t border-rule/50 max-w-[320px]">
+                        <Link
+                            href="/about"
+                            className="inline-flex items-center gap-1.5 type-meta font-medium text-accent hover:underline"
+                        >
+                            <span>{t('navAbout')}</span>
+                            <span className="text-xs">{isRTL ? '←' : '→'}</span>
+                        </Link>
+                        <p className="type-disclosure text-ink-muted mt-1 leading-relaxed">
+                            {isRTL
+                                ? 'مشروع قيادي ضمن البرنامج المشترك بين الأكاديمية السعودية الرقمية (SDA) وجامعة سنغافورة الوطنية (NUS).'
+                                : 'A leadership project developed jointly under SDA and NUS.'}
+                        </p>
+                    </div>
                 </div>
             </div>
         </footer>

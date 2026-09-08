@@ -20,6 +20,7 @@ export function SiteHeader(): React.ReactElement {
                         <NavLink href="/insights">{t('navInsights')}</NavLink>
                         <NavLink href="/publish">{t('navPublish')}</NavLink>
                         <NavLink href="/requests">{t('navRequests')}</NavLink>
+                        <NavLink href="/about">{t('navAbout')}</NavLink>
                     </span>
                     <LanguageSwitcher />
                     <Link href="/library" className="btn btn-primary btn-sm">

@@ -9,6 +9,7 @@ export const TRANSLATIONS = {
         navInsights: 'المؤشرات والتحليلات',
         navPublish: 'نشر أسلوب',
         navRequests: 'طلب أسلوب',
+        navAbout: 'من نحن',
         navBrowse: 'تصفح المكتبة',
         switchLanguage: 'English',
 
@@ -219,6 +220,34 @@ export const TRANSLATIONS = {
         publishTitle: 'نشر أسلوب عمل جديد',
         publishSubtitle: 'أربع خطوات موجزة لمشاركة أسلوب عمل أثبت فاعليته مع زملائك في المنظومة.',
         draftFromExample: 'المساعد الذكي: استخراج مسودة من نموذج مخرج',
+
+        // About Us Page
+        aboutTitle: 'من نحن',
+        aboutSubtitle:
+            'مشروع ومبادرة قيادية طُورت ضمن البرنامج القيادي المشترك بين الأكاديمية السعودية الرقمية (SDA) وجامعة سنغافورة الوطنية (NUS).',
+        aboutTagline:
+            'تحويل تجارب الذكاء الاصطناعي الفردية إلى أصول مؤسسية مشتركة وقابلة لإعادة الاستخدام.',
+        leadershipProgram: 'البرنامج القيادي المشترك',
+        leadershipProgramFull:
+            'البرنامج القيادي التنفيذي بين الأكاديمية السعودية الرقمية (SDA) وجامعة سنغافورة الوطنية (NUS)',
+        teamTitle: 'فريق العمل',
+        teamSubtitle:
+            'نخبة من القيادات الرقمية والمهنية المطورة لمشروع «المكتبة» خلال البرنامج القيادي المشترك:',
+        teamRoleBadge: 'زميل البرنامج القيادي',
+        organizersTitle: 'الجهات المنظمة للبرنامج',
+        missionTitle: 'جوهر المبادرة وسياقها الاستراتيجي',
+        missionP1:
+            'انطلقت فكرة «المكتبة» خلال أعمال البرنامج القيادي التنفيذي المشترك بين الأكاديمية السعودية الرقمية (SDA) وجامعة سنغافورة الوطنية (NUS). رصد الفريق مفارقة محورية في واقع تبني الذكاء الاصطناعي بالمؤسسات السعودية: استخدام النماذج التوليدية يتوسع بسرعة عبر الأفراد، لكنه يظل مشتتاً ومحبوساً في شاشات المحادثة الفردية، ويموت الأسلوب بمجرد انتقال الموظف أو انتهاء مهمته، ليبدأ الزميل التالي دائماً من الصفر.',
+        missionP2:
+            'تجسد «المكتبة» التطبيق الميداني لركيزة "التكامل" ضمن سلّم امتصاص الذكاء الاصطناعي (AI Absorption Ladder). بدلاً من إهدار ساعات العمل في حل المسائل ذاتها بشكل منعزل، تُنشر أساليب العمل المعتمدة مرة واحدة لتصبح أصولاً معرفية مشتركة تعيد ساعات العمل المهدورة للكوادر الوطنية وتدعم مستهدفات التحول الرقمي ورؤية 2030.',
+        teamPhotoCaption:
+            'فريق عمل مشروع «المكتبة» خلال فعاليات البرنامج القيادي المشترك بين الأكاديمية السعودية الرقمية (SDA) وجامعة سنغافورة الوطنية (NUS).',
+        pillar1Title: 'قياس الأثر بالممارسة الفعلية',
+        pillar1Desc: 'حساب الوقت المستعاد بعدد مرات التشغيل الحقيقية وليس عبر الاستبيانات الذاتية.',
+        pillar2Title: 'إعادة استخدام أصول العمل',
+        pillar2Desc: 'نشر الدليل والموجهات المعتمدة مرة واحدة ليطبقها أي زميل يؤدي الدور ذاته.',
+        pillar3Title: 'المواءمة الوطنية والسيادة',
+        pillar3Desc: 'احترام لوائح حماية البيانات الشخصية ومبادئ سدايا لأخلاقيات الذكاء الاصطناعي.',
     },
     en: {
         // Site Brand & Navigation
@@ -228,6 +257,7 @@ export const TRANSLATIONS = {
         navInsights: 'Insights',
         navPublish: 'Publish',
         navRequests: 'Requests',
+        navAbout: 'About Us',
         navBrowse: 'Browse the library',
         switchLanguage: 'العربية',
 
@@ -438,5 +468,33 @@ export const TRANSLATIONS = {
         publishTitle: 'Publish a method',
         publishSubtitle: 'Four steps. You can go back and edit any of them before publishing.',
         draftFromExample: 'Draft this from an example',
+
+        // About Us Page
+        aboutTitle: 'About Us',
+        aboutSubtitle:
+            'A strategic leadership project developed as part of the executive programme co-organised by the Saudi Digital Academy (SDA) and the National University of Singapore (NUS).',
+        aboutTagline:
+            'Transforming fragmented personal AI prompts into structured, reusable organisational assets.',
+        leadershipProgram: 'Joint Leadership Programme',
+        leadershipProgramFull:
+            'Executive Leadership Programme co-organised by the Saudi Digital Academy (SDA) and the National University of Singapore (NUS)',
+        teamTitle: 'The Project Team',
+        teamSubtitle:
+            'The digital leaders and fellows who developed Al-Maktaba during the joint leadership programme:',
+        teamRoleBadge: 'Executive Leadership Fellow',
+        organizersTitle: 'Programme Co-Organisers',
+        missionTitle: 'Strategic Context & Mission',
+        missionP1:
+            'Al-Maktaba was conceived and built during the executive leadership programme co-organised by the Saudi Digital Academy (SDA) and the National University of Singapore (NUS). The team identified a critical bottleneck across Saudi organisations: while generative AI adoption is spreading rapidly among individual employees, it remains trapped in personal chat windows. When an employee leaves, their workflows vanish, forcing the next person to start from scratch.',
+        missionP2:
+            'Al-Maktaba serves as the operational engine for the "Integration" rung on the 5-rung AI Absorption ladder. Rather than losing thousands of working hours to repetitive problem-solving, high-impact workflows are published once, peer-validated, and reused company-wide with empirically measured time returned.',
+        teamPhotoCaption:
+            'The Al-Maktaba project team during the executive leadership programme co-organised by the Saudi Digital Academy (SDA) and the National University of Singapore (NUS).',
+        pillar1Title: 'Empirical Impact Measurement',
+        pillar1Desc: 'Time saved is benchmarked across verified real-world runs, not self-reported surveys.',
+        pillar2Title: 'Workflow Asset Reuse',
+        pillar2Desc: 'Playbooks and system instructions published once and executed by peers in the same role.',
+        pillar3Title: 'Sovereignty & Governance',
+        pillar3Desc: 'Aligned with Saudi PDPL regulations and SDAIA AI Ethics Principles from day one.',
     },
 };
