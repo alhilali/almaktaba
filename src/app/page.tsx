@@ -21,7 +21,7 @@ export default function LandingPage(): React.ReactElement {
     const maxSectorReuse = Math.max(...sectors.map((sector) => sector.totalReuse), 1);
 
     // Interactive Absorption Ladder state
-    const [activeRungKey, setActiveRungKey] = useState<string>('integration');
+    const [activeRungKey, setActiveRungKey] = useState<string>('habit');
 
     // Interactive ROI Calculator state
     const [teamSize, setTeamSize] = useState<number>(35);
@@ -31,10 +31,80 @@ export default function LandingPage(): React.ReactElement {
     const [previewSectorId, setPreviewSectorId] = useState<string>('government');
 
     // ROI Calculations (Average 32 minutes saved per run, 48 work weeks/year)
-    const annualHoursSaved = Math.round((teamSize * runsPerWeek * 0.53 * 48));
+    const annualHoursSaved = Math.round(teamSize * runsPerWeek * 0.53 * 48);
     const productiveDays = Math.round(annualHoursSaved / 8);
 
-    const activeRung = ADOPTION_LADDER.find((r) => r.key === activeRungKey) || ADOPTION_LADDER[3];
+    // Dynamic ladder tier calculated directly from user input
+    const calculatedRungKey =
+        runsPerWeek <= 1
+            ? 'activation'
+            : runsPerWeek <= 3
+              ? 'habit'
+              : runsPerWeek <= 6
+                ? 'integration'
+                : 'impact';
+
+    const ladderTiers: Record<
+        string,
+        {
+            labelAr: string;
+            labelEn: string;
+            badgeAr: string;
+            badgeEn: string;
+            descAr: string;
+            descEn: string;
+            color: string;
+        }
+    > = {
+        access: {
+            labelAr: 'الدرجة 1: الوصول (Access)',
+            labelEn: 'Rung 1: Access',
+            badgeAr: 'توفير الحسابات',
+            badgeEn: 'Tool Access',
+            descAr: 'مجرد توفير التراخيص وأدوات الذكاء الاصطناعي دون أساليب عمل معيارية.',
+            descEn: 'Merely provisioning tool accounts without standardized methods.',
+            color: 'var(--color-ink-faint)',
+        },
+        activation: {
+            labelAr: 'الدرجة 2: التفعيل التجريبي (Activation)',
+            labelEn: 'Rung 2: Activation',
+            badgeAr: 'تجارب فردية متفرقة',
+            badgeEn: 'Occasional Trials',
+            descAr: 'تجارب شخصية متفرقة (تشغيل واحد أسبوعياً) لحل مهام معزولة دون أساليب موحدة.',
+            descEn: 'Individual experimentation (~1 task/week) without standard team workflows.',
+            color: 'var(--color-ink-muted)',
+        },
+        habit: {
+            labelAr: 'الدرجة 3: العادة الفردية (Habit)',
+            labelEn: 'Rung 3: Habit',
+            badgeAr: 'روتين شخصي متكرر',
+            badgeEn: 'Personal Routine',
+            descAr: 'اعتياد أسبوعي منتظم (2-3 مهام أسبوعياً)، لكن الأساليب تظل حبيسة أجهزة الأفراد.',
+            descEn: 'Regular reliance on AI (2-3 tasks/week), but methods remain siloed with individuals.',
+            color: 'var(--color-measure)',
+        },
+        integration: {
+            labelAr: 'الدرجة 4: التكامل المؤسسي (Integration)',
+            labelEn: 'Rung 4: Integration',
+            badgeAr: 'نطاق المكتبة المستهدف 🎯',
+            badgeEn: 'Al-Maktaba Sweet Spot 🎯',
+            descAr: 'المرحلة المستهدفة (4-6 مهام أسبوعياً): إعادة استخدام منهجية لأساليب معتمدة ومفحوصة بجودة وأمان.',
+            descEn: 'The sweet spot (4-6 tasks/week): team-wide systematic reuse of vetted methods with quality gates.',
+            color: 'var(--color-accent)',
+        },
+        impact: {
+            labelAr: 'الدرجة 5: الأثر والتحول (Impact)',
+            labelEn: 'Rung 5: Strategic Impact',
+            badgeAr: 'تحول استراتيجي شامل',
+            badgeEn: 'Strategic Transformation',
+            descAr: 'تحول مؤسسي شامل (7+ مهام أسبوعياً): سلاسل وكلاء متعددين وقياس مستمر لعائد الساعات المحررة.',
+            descEn: 'Transformative operations (7+ tasks/week): chained multi-agent pipelines with verified capacity returns.',
+            color: 'var(--color-accent)',
+        },
+    };
+
+    const currentLadder = ladderTiers[calculatedRungKey];
+    const activeRung = ADOPTION_LADDER.find((r) => r.key === activeRungKey) || ADOPTION_LADDER[2];
 
     const rungDescriptions: Record<string, { ar: string; en: string }> = {
         access: {
@@ -205,11 +275,58 @@ export default function LandingPage(): React.ReactElement {
 
             {/* Visual Interactive Widget: Team Impact Calculator */}
             <section className="mx-auto max-w-[1180px] px-5 py-14 md:px-8 md:py-20">
+                {/* Core Concept: Method vs Run Card */}
+                <div className="mb-8 rounded-[10px] border border-accent/40 bg-accent-sunk/20 p-5 md:p-6 shadow-xs">
+                    <div className="flex items-start gap-3.5">
+                        <span className="text-2xl mt-0.5 select-none">💡</span>
+                        <div className="w-full">
+                            <h3 className="type-label font-bold text-accent">
+                                {isRTL
+                                    ? 'المفهومان الأساسيان في منصة المكتبة (ما الفرق بين الأسلوب والتشغيل؟)'
+                                    : 'Two Core Concepts in Al-Maktaba (Method vs. Run):'}
+                            </h3>
+                            <p className="type-meta text-ink-muted mt-1 mb-3 leading-relaxed">
+                                {isRTL
+                                    ? 'لكي تتضح حسابات الطاقة الاستيعابية والكتالوج بدقة، تفصل المكتبة بين "أسلوب العمل" و"مرات التشغيل":'
+                                    : 'To accurately calculate capacity reclaimed, Al-Maktaba distinguishes between the "Method" and the "Run":'}
+                            </p>
+                            <div className="grid gap-3.5 sm:grid-cols-2">
+                                <div className="rounded-[6px] border border-rule bg-surface p-4">
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <span className="h-2 w-2 rounded-full bg-accent" />
+                                        <strong className="type-label font-bold text-ink">
+                                            {isRTL ? '1. أسلوب العمل المعتمد (Method)' : '1. Vetted Method (The Recipe)'}
+                                        </strong>
+                                    </div>
+                                    <p className="type-disclosure text-ink-muted leading-relaxed">
+                                        {isRTL
+                                            ? 'هو الوصفة والدليل الإجرائي المعتمد والموجهات (Prompt) لأداء مهمة متكررة (مثل صياغة خطاب وزاري، أو تقييم مذكرة ائتمان، أو تدقيق حادثة سلامة). يُكتب مرة واحدة ويستفيد منه الجميع.'
+                                            : 'The vetted playbook, system instructions, and quality gates for a recurring task (e.g. drafting ministerial correspondence or credit memos). Built once, shared company-wide.'}
+                                    </p>
+                                </div>
+                                <div className="rounded-[6px] border border-rule bg-surface p-4">
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <span className="h-2 w-2 rounded-full bg-measure" />
+                                        <strong className="type-label font-bold text-ink">
+                                            {isRTL ? '2. مرات التشغيل والتطبيق (Run / Reuse)' : '2. Workflow Run (The Execution)'}
+                                        </strong>
+                                    </div>
+                                    <p className="type-disclosure text-ink-muted leading-relaxed">
+                                        {isRTL
+                                            ? 'كل مرة يرفع فيها موظف ملف معاملة ويطبق عليها أسلوب العمل لإنجاز عمله الفعلي في دقائق بدلاً من ساعات العمل اليدوي. هذا الرقم هو ما تقيسه المكتبة وتحسب وفوراته.'
+                                            : 'Every time an employee uploads a document payload and runs the method to complete real work in minutes instead of hours. This execution count is what Al-Maktaba benchmarks.'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="rounded-[10px] border border-rule bg-surface p-6 md:p-10 shadow-sm">
                     <div className="flex flex-wrap items-center justify-between gap-4 border-b border-rule pb-6 mb-8">
                         <div>
                             <span className="type-disclosure font-mono text-accent uppercase font-bold tracking-wide">
-                                {isRTL ? 'حاسبة الأثر المؤسسي' : 'Impact Simulation'}
+                                {isRTL ? 'حاسبة الأثر المؤسسي وسلّم الاستيعاب' : 'Impact Simulation & Ladder Status'}
                             </span>
                             <h2 className="type-display-2 text-ink mt-1">
                                 {isRTL
@@ -218,7 +335,7 @@ export default function LandingPage(): React.ReactElement {
                             </h2>
                             <p className="type-meta text-ink-muted mt-1">
                                 {isRTL
-                                    ? 'حساب تقديري يستند إلى متوسط التوفير المحقق (32 دقيقة لكل تشغيل أسلوب).'
+                                    ? 'حساب تقديري يستند إلى متوسط التوفير المحقق (32 دقيقة لكل تشغيل أسلوب عمل معتمد).'
                                     : 'Estimated capacity based on benchmark saving of 32 minutes per verified method run.'}
                             </p>
                         </div>
@@ -229,9 +346,9 @@ export default function LandingPage(): React.ReactElement {
                         {/* Interactive Sliders */}
                         <div className="space-y-6">
                             <div>
-                                <div className="flex items-center justify-between type-meta mb-2">
+                                <div className="flex items-center justify-between type-meta mb-1.5">
                                     <span className="font-semibold text-ink">
-                                        {isRTL ? 'حجم الفريق أو المنظمة:' : 'Team or entity size:'}
+                                        {isRTL ? 'حجم الفريق أو المنظمة المشاركة:' : 'Team or entity size:'}
                                     </span>
                                     <span className="font-mono text-accent text-lg font-bold">
                                         {teamSize} {isRTL ? 'موظف' : 'people'}
@@ -254,27 +371,47 @@ export default function LandingPage(): React.ReactElement {
                             </div>
 
                             <div>
-                                <div className="flex items-center justify-between type-meta mb-2">
+                                <div className="flex items-center justify-between type-meta mb-1">
                                     <span className="font-semibold text-ink">
-                                        {isRTL ? 'مرات إعادة الاستخدام أسبوعياً للموظف:' : 'Weekly reused runs per person:'}
+                                        {isRTL
+                                            ? 'كم مهمة ينجزها كل موظف أسبوعياً بأساليب المكتبة المعتمدة؟'
+                                            : 'Routine tasks completed via library methods (per person / week):'}
                                     </span>
                                     <span className="font-mono text-accent text-lg font-bold">
-                                        {runsPerWeek} {isRTL ? 'مرات' : 'runs'}
+                                        {runsPerWeek} {isRTL ? 'مهام / أسبوعياً' : 'tasks / week'}
                                     </span>
                                 </div>
+                                <p className="type-disclosure text-ink-muted mb-2">
+                                    {isRTL
+                                        ? 'عدد المعاملات المتكررة (مثل صياغة الخطابات، مراجعة العقود، إعداد التقارير) المنجزة بأساليب المكتبة بدلاً من العمل اليدوي.'
+                                        : 'Number of recurring tasks (drafting letters, auditing memos, preparing reports) run via vetted methods instead of manual work.'}
+                                </p>
                                 <input
                                     type="range"
                                     min="1"
                                     max="10"
                                     step="1"
                                     value={runsPerWeek}
-                                    onChange={(e) => setRunsPerWeek(Number(e.target.value))}
+                                    onChange={(e) => {
+                                        const val = Number(e.target.value);
+                                        setRunsPerWeek(val);
+                                        const key =
+                                            val <= 1
+                                                ? 'activation'
+                                                : val <= 3
+                                                  ? 'habit'
+                                                  : val <= 6
+                                                    ? 'integration'
+                                                    : 'impact';
+                                        setActiveRungKey(key);
+                                    }}
                                     className="w-full accent-accent cursor-pointer"
                                 />
-                                <div className="flex justify-between type-disclosure text-ink-faint mt-1">
-                                    <span>1</span>
-                                    <span>5</span>
-                                    <span>10</span>
+                                <div className="flex justify-between type-disclosure text-ink-faint mt-1.5">
+                                    <span>1 {isRTL ? '(تفعيل تجريبي)' : '(Light trial)'}</span>
+                                    <span>3 {isRTL ? '(عادة أسبوعية)' : '(Routine)'}</span>
+                                    <span>5 {isRTL ? '(نطاق المكتبة 🎯)' : '(Maktaba focus 🎯)'}</span>
+                                    <span>10 {isRTL ? '(تحول استراتيجي)' : '(Daily driver)'}</span>
                                 </div>
                             </div>
                         </div>
@@ -300,13 +437,29 @@ export default function LandingPage(): React.ReactElement {
                                     ~{productiveDays}
                                 </div>
                             </div>
-                            <div className="p-3 bg-surface rounded-[6px] border border-rule">
-                                <div className="type-disclosure text-ink-faint">
-                                    {isRTL ? 'أثر الاستيعاب' : 'Ladder status'}
+                            <div className="p-3 bg-surface rounded-[6px] border border-rule flex flex-col justify-between">
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="type-disclosure text-ink-faint">
+                                            {isRTL ? 'درجة النضج في السلّم' : 'Ladder status'}
+                                        </span>
+                                        <span
+                                            className="chip border text-[10px] font-semibold"
+                                            style={{
+                                                borderColor: currentLadder.color,
+                                                color: currentLadder.color,
+                                            }}
+                                        >
+                                            {isRTL ? currentLadder.badgeAr : currentLadder.badgeEn}
+                                        </span>
+                                    </div>
+                                    <div className="type-label mt-1 text-ink font-bold">
+                                        {isRTL ? currentLadder.labelAr : currentLadder.labelEn}
+                                    </div>
                                 </div>
-                                <div className="type-label mt-1 text-ink font-semibold">
-                                    {isRTL ? 'تكامل مؤسسي موثق' : 'Verified Integration'}
-                                </div>
+                                <p className="type-disclosure text-ink-muted mt-1.5 leading-snug">
+                                    {isRTL ? currentLadder.descAr : currentLadder.descEn}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -371,6 +524,13 @@ export default function LandingPage(): React.ReactElement {
                                                       ][index]
                                                     : rung.label}
                                             </div>
+                                            {calculatedRungKey === rung.key && (
+                                                <div className="mt-1 text-center">
+                                                    <span className="chip border border-accent bg-surface text-accent text-[9px] font-bold px-1 py-0.5">
+                                                        {isRTL ? 'مستواك' : 'Your tier'}
+                                                    </span>
+                                                </div>
+                                            )}
                                         </button>
                                     ))}
                                 </div>
@@ -380,12 +540,12 @@ export default function LandingPage(): React.ReactElement {
                                     <div className="flex items-center justify-between mb-1.5">
                                         <span className="type-label font-bold text-accent">
                                             {isRTL
-                                                ? `الدرجة: ${activeRung.label}`
-                                                : `Rung: ${activeRung.label}`}
+                                                ? `الدرجة المختارة: ${activeRung.label}`
+                                                : `Selected Rung: ${activeRung.label}`}
                                         </span>
                                         {activeRung.isMaktabaRung && (
                                             <span className="chip border border-accent bg-surface text-accent text-[11px] font-semibold">
-                                                {isRTL ? 'نطاق تركيز المكتبة' : 'Al-Maktaba focus'}
+                                                {isRTL ? 'نطاق تركيز المكتبة 🎯' : 'Al-Maktaba focus 🎯'}
                                             </span>
                                         )}
                                     </div>

@@ -15,7 +15,7 @@ export function PipelineCombinations({ method }: { method: IMethod }): React.Rea
         <div className="space-y-4">
             <p className="type-meta text-ink-muted leading-relaxed">
                 {isAr
-                    ? 'لا تعمل أساليب الذكاء الاصطناعي الناجحة في معزل. توضح السلسلة أدناه كيفية ربط هذا الأسلوب بأساليب أخرى في المكتبة لبناء خط إنتاج رقمي متكامل (Multi-Agent Pipeline).'
+                    ? 'لا تعمل أساليب الذكاء الاصطناعي الناجحة في معزل. توضح السلسلة أدناه كيفية ربط هذا الأسلوب بأساليب أخرى في المكتبة لبناء خط إنتاج رقمي متكامل.'
                     : 'High-impact AI work methods operate in composite pipelines rather than silos. The workflow chains below illustrate how to connect this method with other library assets for end-to-end task execution.'}
             </p>
 
@@ -31,10 +31,10 @@ export function PipelineCombinations({ method }: { method: IMethod }): React.Rea
 
                     const relationshipLabel =
                         comb.relationship === 'precedes'
-                            ? isAr ? 'خطوة سابقة مُمهدة (Input Provider)' : 'Upstream Step (Input Source)'
+                            ? isAr ? 'أسلوب سابق مُمهد' : 'Upstream Step (Input Source)'
                             : comb.relationship === 'follows'
-                              ? isAr ? 'خطوة لاحقة مكملة (Downstream Consumer)' : 'Downstream Step (Next Action)'
-                              : isAr ? 'أسلوب تكاملي مرافق (Parallel Companion)' : 'Companion Method';
+                              ? isAr ? 'أسلوب لاحق مكمل' : 'Downstream Step (Next Action)'
+                              : isAr ? 'أسلوب تكاملي مرافق' : 'Companion Method';
 
                     return (
                         <div

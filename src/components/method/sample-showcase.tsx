@@ -46,7 +46,7 @@ export function SampleShowcase({ method }: { method: IMethod }): React.ReactElem
                         )}
                     >
                         <span className="me-1.5 inline-block h-2 w-2 rounded-full bg-measure" />
-                        {isAr ? 'المدخلات النموذجية (Sample Input)' : 'Sample Input (Upload)'}
+                        {isAr ? 'المدخلات النموذجية' : 'Sample Input'}
                     </button>
                     <button
                         type="button"
@@ -59,7 +59,7 @@ export function SampleShowcase({ method }: { method: IMethod }): React.ReactElem
                         )}
                     >
                         <span className="me-1.5 inline-block h-2 w-2 rounded-full bg-accent" />
-                        {isAr ? 'المخرجات المعتمدة (Sample Output)' : 'Sample Output (Result)'}
+                        {isAr ? 'المخرجات المعتمدة' : 'Sample Output'}
                     </button>
                 </div>
 
@@ -132,7 +132,13 @@ export function SampleShowcase({ method }: { method: IMethod }): React.ReactElem
                         : 'Realistic sample matching the method specification. Copy or upload to execute in your environment.'}
                 </span>
                 <span className="font-mono text-[11px] text-ink-muted">
-                    {activeTab === 'input' ? 'INPUT · UPLOAD' : 'OUTPUT · VERIFIED'}
+                    {isAr
+                        ? activeTab === 'input'
+                            ? 'مستند إدخال'
+                            : 'مخرج معتمد'
+                        : activeTab === 'input'
+                          ? 'INPUT PAYLOAD'
+                          : 'VERIFIED OUTPUT'}
                 </span>
             </div>
         </div>

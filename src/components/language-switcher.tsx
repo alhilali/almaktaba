@@ -1,19 +1,45 @@
 'use client';
 
 import { useLanguage } from '@/context/language-context';
+import { cn } from '@/lib/utils';
 
 export function LanguageSwitcher(): React.ReactElement {
-    const { language, toggleLanguage } = useLanguage();
+    const { language, setLanguage } = useLanguage();
 
     return (
-        <button
-            type="button"
-            onClick={toggleLanguage}
-            className="flex items-center gap-1.5 rounded-[4px] border border-rule px-2.5 py-1 text-xs font-semibold text-ink-muted transition-colors hover:border-accent hover:text-accent"
-            title={language === 'ar' ? 'Switch to English' : 'التحويل إلى العربية'}
+        <div
+            role="group"
+            aria-label="Language selection"
+            className="inline-flex items-center rounded-[5px] border border-rule bg-surface-sunk/60 p-0.5 text-xs font-medium"
         >
-            <span className="text-[13px]">🌐</span>
-            <span>{language === 'ar' ? 'English' : 'العربية'}</span>
-        </button>
+            <button
+                type="button"
+                onClick={() => setLanguage('ar')}
+                className={cn(
+                    'rounded-[3px] px-2.5 py-1 transition-all duration-150',
+                    language === 'ar'
+                        ? 'bg-surface font-bold text-accent shadow-xs border border-rule/80'
+                        : 'text-ink-muted hover:text-ink'
+                )}
+            >
+                العربية
+            </button>
+            <span className="text-rule-strong mx-0.5 select-none" aria-hidden>
+                |
+            </span>
+            <button
+                type="button"
+                onClick={() => setLanguage('en')}
+                className={cn(
+                    'rounded-[3px] px-2.5 py-1 transition-all duration-150 font-sans',
+                    language === 'en'
+                        ? 'bg-surface font-bold text-accent shadow-xs border border-rule/80'
+                        : 'text-ink-muted hover:text-ink'
+                )}
+            >
+                English
+            </button>
+        </div>
     );
 }
+

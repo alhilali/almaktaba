@@ -76,7 +76,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                         isRunOpen ? 'btn-primary ring-2 ring-accent/30' : 'btn-primary',
                     )}
                 >
-                    ⚡ {isAr ? 'تشغيل هذا الأسلوب (Run & Execute)' : 'Run this method (Upload & CLI)'}
+                    ⚡ {isAr ? 'تشغيل وتطبيق هذا الأسلوب' : 'Run this method'}
                 </button>
                 <a href={`/api/export/${method.id}`} className="btn btn-secondary">
                     📥 {isAr ? 'تصدير للاستخدام الداخلي' : 'Export for internal use'}
@@ -102,7 +102,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                             <span className="text-measure font-bold">⚠️</span>
                             <div>
                                 <span className="font-bold text-ink">
-                                    {isAr ? 'أسلوب مصنف بدرجة سري (Confidential):' : 'Confidential Sensitivity Notice:'}
+                                    {isAr ? 'تنبيه: أسلوب مصنف بدرجة سري' : 'Confidential Sensitivity Notice:'}
                                 </span>{' '}
                                 {isAr
                                     ? 'يجب تشغيل هذا الأسلوب داخل البيئة المحلية المعتمدة لمنظمتك أو عبر سطر أوامر AGY الداخلي دون إرسال البيانات لنماذج سحابية خارجية.'
@@ -124,7 +124,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                                         : 'bg-surface-sunk text-ink-muted hover:text-ink',
                                 )}
                             >
-                                📤 {isAr ? 'رفع ملف وتشغيل تفاعلي (Upload & Run)' : 'Upload & Interactive Run'}
+                                📤 {isAr ? 'رفع ملف وتشغيل تفاعلي' : 'Upload & Interactive Run'}
                             </button>
                             <button
                                 type="button"
@@ -136,7 +136,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                                         : 'bg-surface-sunk text-ink-muted hover:text-ink',
                                 )}
                             >
-                                💻 {isAr ? 'أمر التشغيل (CLI Command)' : 'CLI Terminal Command'}
+                                💻 {isAr ? 'سطر الأوامر' : 'CLI Command'}
                             </button>
                             <button
                                 type="button"
@@ -148,7 +148,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                                         : 'bg-surface-sunk text-ink-muted hover:text-ink',
                                 )}
                             >
-                                🔌 {isAr ? 'استدعاء برمجياً (API / Script)' : 'API / Integration'}
+                                🔌 {isAr ? 'الربط البرمجي' : 'API / Integration'}
                             </button>
                         </div>
 
@@ -169,14 +169,14 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                                 <div className="flex items-center justify-between mb-1.5">
                                     <h4 className="type-label font-bold text-ink flex items-center gap-2">
                                         <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-white text-[11px] font-bold">1</span>
-                                        {isAr ? 'إرفاق ملف المدخلات (Upload Source File)' : 'Step 1: Upload Input File'}
+                                        {isAr ? 'الخطوة 1: إرفاق ملف المدخلات' : 'Step 1: Upload Input File'}
                                     </h4>
                                     <button
                                         type="button"
                                         onClick={() => setUploadedFile(sampleInput.filename || 'sample-input.docx')}
                                         className="type-disclosure font-medium text-accent hover:underline"
                                     >
-                                        {isAr ? '📥 تحميل النموذج التجريبي الجاهز' : '📥 Load sample input file'}
+                                        {isAr ? '📥 تحميل ملف مدخلات نموذجي جاهز' : '📥 Load sample input file'}
                                     </button>
                                 </div>
                                 <p className="type-meta text-ink-muted mb-3">
@@ -201,7 +201,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                                                     {uploadedFile}
                                                 </p>
                                                 <p className="type-disclosure text-accent font-medium">
-                                                    {isAr ? 'تم إرفاق الملف بنجاح ✓ (جاهز للتمرير للوكلاء)' : 'File attached & verified for ingestion ✓'}
+                                                    {isAr ? 'تم إرفاق الملف بنجاح ✓' : 'File attached & verified for ingestion ✓'}
                                                 </p>
                                             </div>
                                             <button
@@ -237,7 +237,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                                 <div className="flex items-center justify-between mb-1.5">
                                     <h4 className="type-label font-bold text-ink flex items-center gap-2">
                                         <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-white text-[11px] font-bold">2</span>
-                                        {isAr ? 'تعليمات الأسلوب والموجهات (System Instructions)' : 'Step 2: Method System Instructions'}
+                                        {isAr ? 'الخطوة 2: تعليمات وتوجيهات الأسلوب' : 'Step 2: Method System Instructions'}
                                     </h4>
                                     <button
                                         type="button"
@@ -309,7 +309,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                             <div>
                                 <h4 className="type-label font-bold text-ink mb-1">
                                     {isAr
-                                        ? 'تشغيل الأسلوب عبر واجهة سطر الأوامر (Antigravity AGY CLI)'
+                                        ? 'تشغيل الأسلوب عبر سطر الأوامر'
                                         : 'Execute via Antigravity AGY Agent CLI'}
                                 </h4>
                                 <p className="type-meta text-ink-muted">
@@ -333,7 +333,7 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                             <div className="rounded-[4px] border border-rule bg-surface-sunk p-3 type-disclosure text-ink-muted space-y-1">
                                 <p>
                                     <strong className="text-ink font-semibold">--input:</strong>{' '}
-                                    {isAr ? 'المسار إلى ملف المدخلات المرفوع (Word, PDF, TXT)' : 'Path to the input document payload'}
+                                    {isAr ? 'المسار إلى ملف المدخلات المرفوع' : 'Path to the input document payload'}
                                 </p>
                                 <p>
                                     <strong className="text-ink font-semibold">--agents:</strong>{' '}
@@ -353,12 +353,12 @@ export function MethodActions({ method }: { method: IMethod }): React.ReactEleme
                             <div>
                                 <h4 className="type-label font-bold text-ink mb-1">
                                     {isAr
-                                        ? 'استدعاء الأسلوب عبر واجهة برمجة التطبيقات (HTTP REST API)'
+                                        ? 'استدعاء الأسلوب عبر واجهة برمجة التطبيقات'
                                         : 'Invoke method via HTTP REST API'}
                                 </h4>
                                 <p className="type-meta text-ink-muted">
                                     {isAr
-                                        ? 'يمكن لأي نظام داخلي (ERP, CRM, Archiving) رفع ملف الإدخال واستلام المخرج المفحوص مباشرة.'
+                                        ? 'يمكن لأي نظام داخلي رفع ملف الإدخال واستلام المخرج المفحوص مباشرة.'
                                         : 'Integrate directly into internal enterprise systems (ERP, CRM, Archiving) via multipart document upload.'}
                                 </p>
                             </div>

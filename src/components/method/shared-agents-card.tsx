@@ -17,12 +17,12 @@ export function SharedAgentsCard({ method }: { method: IMethod }): React.ReactEl
                     <div>
                         <h3 className="type-label font-bold text-accent">
                             {isAr
-                                ? 'هندسة الوكلاء المشتركين (Shared Agentic Subagents)'
+                                ? 'هندسة الوكلاء المشتركين'
                                 : 'Shared Agentic Architecture'}
                         </h3>
                         <p className="type-meta text-ink-muted mt-1 leading-relaxed">
                             {isAr
-                                ? 'بدلاً من حشو الأوامر والتعليمات (Prompts) بقوائم التحقق اللغوي والأمني، توظف المكتبة وكلاء فرعيين متخصصين لمعالجة الاهتمامات المشتركة كبوابات جودة مستقلة.'
+                                ? 'بدلاً من حشو الأوامر والتعليمات بقوائم التحقق اللغوي والأمني، توظف المكتبة وكلاء فرعيين متخصصين لمعالجة الاهتمامات المشتركة كبوابات جودة مستقلة.'
                                 : 'Rather than overloading prompt templates with monolithic instructions, Al-Maktaba decouples shared concerns (verification, Arabic formal register, NDMO privacy redaction) into reusable quality-gate subagents.'}
                         </p>
                     </div>
@@ -41,7 +41,7 @@ export function SharedAgentsCard({ method }: { method: IMethod }): React.ReactEl
                                     {isAr ? agent.badgeAr : agent.badge}
                                 </span>
                                 <span className="type-disclosure font-mono text-ink-faint">
-                                    Gate 0{index + 1}
+                                    {isAr ? `بوابة 0${index + 1}` : `Gate 0${index + 1}`}
                                 </span>
                             </div>
 
@@ -59,7 +59,7 @@ export function SharedAgentsCard({ method }: { method: IMethod }): React.ReactEl
 
                         <div className="mt-4 border-t border-rule/60 pt-3">
                             <span className="type-disclosure text-ink-faint block mb-1.5">
-                                {isAr ? 'الأدوات البرمجية المستدعاة (Tools):' : 'Agent Invoked Tools:'}
+                                {isAr ? 'الأدوات البرمجية المستدعاة:' : 'Invoked Tools:'}
                             </span>
                             <div className="flex flex-wrap gap-1.5">
                                 {(isAr && agent.toolsAr ? agent.toolsAr : agent.tools).map((tool) => (
