@@ -23,11 +23,64 @@ const plexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-    title: 'المكتبة · Al-Maktaba',
+    metadataBase: new URL('https://almaktaba-liard.vercel.app'),
+    title: {
+        default: 'المكتبة · Al-Maktaba',
+        template: '%s · المكتبة Al-Maktaba',
+    },
     description:
         'مكتبة مشتركة لأساليب عمل الذكاء الاصطناعي للمنظمات السعودية. تُنشر مرة واحدة، ويستفيد منها الجميع. A shared library of AI work methods for Saudi organisations.',
+    applicationName: 'المكتبة Al-Maktaba',
+    authors: [{ name: 'SDA × NUS Executive Leadership Fellows' }],
+    creator: 'Al-Maktaba Team',
+    publisher: 'Saudi Digital Academy (SDA) × NUS',
+    keywords: [
+        'المكتبة',
+        'Al-Maktaba',
+        'الذكاء الاصطناعي',
+        'أساليب عمل',
+        'AI Adoption',
+        'SDA',
+        'NUS',
+        'Saudi Arabia',
+        'الذكاء الاصطناعي التوليدي',
+    ],
     icons: {
-        icon: '/icon.svg',
+        icon: [
+            { url: '/favicon.ico', sizes: 'any' },
+            { url: '/icon.png', sizes: '32x32', type: 'image/png' },
+            { url: '/icon.svg', type: 'image/svg+xml' },
+        ],
+        shortcut: '/favicon.ico',
+        apple: [
+            { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+        ],
+    },
+    openGraph: {
+        title: 'المكتبة · Al-Maktaba',
+        description:
+            'مكتبة مشتركة لأساليب عمل الذكاء الاصطناعي للمنظمات السعودية. تُنشر مرة واحدة، ويستفيد منها الجميع. أساليب عمل موثقة ومقاسة الأثر.',
+        url: 'https://almaktaba-liard.vercel.app',
+        siteName: 'المكتبة · Al-Maktaba',
+        locale: 'ar_SA',
+        alternateLocale: ['en_US'],
+        type: 'website',
+        images: [
+            {
+                url: '/og-image.png',
+                width: 1200,
+                height: 630,
+                alt: 'المكتبة · Al-Maktaba — منصة أساليب عمل الذكاء الاصطناعي',
+                type: 'image/png',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'المكتبة · Al-Maktaba',
+        description:
+            'مكتبة مشتركة لأساليب عمل الذكاء الاصطناعي للمنظمات السعودية. تُنشر مرة واحدة، ويستفيد منها الجميع.',
+        images: ['/og-image.png'],
     },
 };
 
