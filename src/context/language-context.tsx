@@ -28,6 +28,7 @@ export interface ILanguageContext {
 const LanguageContext = createContext<ILanguageContext | null>(null);
 
 const STORAGE_KEY = 'almaktaba_lang_pref';
+const COOKIE_KEY = 'almaktaba_lang';
 
 function subscribe(callback: () => void): () => void {
     window.addEventListener('storage', callback);
@@ -37,21 +38,29 @@ function subscribe(callback: () => void): () => void {
 function getSnapshot(): SupportedLanguage {
     try {
         const saved = window.localStorage.getItem(STORAGE_KEY) as SupportedLanguage | null;
-        return saved === 'en' ? 'en' : 'ar';
+        if (saved === 'en' || saved === 'ar') return saved;
+        const match = document.cookie.match(new RegExp('(^| )' + COOKIE_KEY + '=([^;]+)'));
+        if (match && (match[2] === 'en' || match[2] === 'ar')) {
+            return match[2] as SupportedLanguage;
+        }
+        return 'ar';
     } catch {
         return 'ar';
     }
 }
 
-function getServerSnapshot(): SupportedLanguage {
-    return 'ar';
-}
-
-export function LanguageProvider({ children }: { children: ReactNode }): React.ReactElement {
+export function LanguageProvider({
+    children,
+    initialLanguage = 'ar',
+}: {
+    children: ReactNode;
+    initialLanguage?: SupportedLanguage;
+}): React.ReactElement {
+    const getServerSnapshot = (): SupportedLanguage => initialLanguage;
     const storedLang = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
     const [overrideLang, setOverrideLang] = useState<SupportedLanguage | null>(null);
 
-    const language: SupportedLanguage = overrideLang ?? storedLang;
+    const language: SupportedLanguage = overrideLang ?? storedLang ?? initialLanguage;
 
     // Synchronize document attributes to external system (DOM)
     useEffect(() => {
@@ -63,6 +72,9 @@ export function LanguageProvider({ children }: { children: ReactNode }): React.R
         setOverrideLang(lang);
         try {
             window.localStorage.setItem(STORAGE_KEY, lang);
+            document.cookie = `${COOKIE_KEY}=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             window.dispatchEvent(new Event('storage'));
         } catch {
             // storage error

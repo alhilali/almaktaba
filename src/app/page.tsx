@@ -346,9 +346,9 @@ export default function LandingPage(): React.ReactElement {
                         {/* Interactive Sliders */}
                         <div className="space-y-6">
                             <div>
-                                <div className="flex items-center justify-between type-meta mb-1.5">
+                                <div className="flex items-center justify-between type-meta mb-2">
                                     <span className="font-semibold text-ink">
-                                        {isRTL ? 'حجم الفريق أو المنظمة المشاركة:' : 'Team or entity size:'}
+                                        {isRTL ? 'حجم الفريق أو المنظمة:' : 'Team or entity size:'}
                                     </span>
                                     <span className="font-mono text-accent text-lg font-bold">
                                         {teamSize} {isRTL ? 'موظف' : 'people'}
@@ -371,21 +371,16 @@ export default function LandingPage(): React.ReactElement {
                             </div>
 
                             <div>
-                                <div className="flex items-center justify-between type-meta mb-1">
+                                <div className="flex items-center justify-between type-meta mb-2">
                                     <span className="font-semibold text-ink">
                                         {isRTL
-                                            ? 'كم مهمة ينجزها كل موظف أسبوعياً بأساليب المكتبة المعتمدة؟'
-                                            : 'Routine tasks completed via library methods (per person / week):'}
+                                            ? 'المهام الأسبوعية للموظف:'
+                                            : 'Weekly tasks per person:'}
                                     </span>
                                     <span className="font-mono text-accent text-lg font-bold">
-                                        {runsPerWeek} {isRTL ? 'مهام / أسبوعياً' : 'tasks / week'}
+                                        {runsPerWeek} {isRTL ? 'مهام / أسبوع' : 'tasks / wk'}
                                     </span>
                                 </div>
-                                <p className="type-disclosure text-ink-muted mb-2">
-                                    {isRTL
-                                        ? 'عدد المعاملات المتكررة (مثل صياغة الخطابات، مراجعة العقود، إعداد التقارير) المنجزة بأساليب المكتبة بدلاً من العمل اليدوي.'
-                                        : 'Number of recurring tasks (drafting letters, auditing memos, preparing reports) run via vetted methods instead of manual work.'}
-                                </p>
                                 <input
                                     type="range"
                                     min="1"
@@ -407,13 +402,19 @@ export default function LandingPage(): React.ReactElement {
                                     }}
                                     className="w-full accent-accent cursor-pointer"
                                 />
-                                <div className="flex justify-between type-disclosure text-ink-faint mt-1.5">
-                                    <span>1 {isRTL ? '(تفعيل تجريبي)' : '(Light trial)'}</span>
-                                    <span>3 {isRTL ? '(عادة أسبوعية)' : '(Routine)'}</span>
-                                    <span>5 {isRTL ? '(نطاق المكتبة 🎯)' : '(Maktaba focus 🎯)'}</span>
-                                    <span>10 {isRTL ? '(تحول استراتيجي)' : '(Daily driver)'}</span>
+                                <div className="flex justify-between type-disclosure text-ink-faint mt-1">
+                                    <span>1 {isRTL ? '(تفعيل)' : '(Trial)'}</span>
+                                    <span>3 {isRTL ? '(عادة)' : '(Routine)'}</span>
+                                    <span>5 {isRTL ? '(المكتبة 🎯)' : '(Target 🎯)'}</span>
+                                    <span>10 {isRTL ? '(يومي)' : '(Daily)'}</span>
                                 </div>
                             </div>
+
+                            <p className="type-disclosure text-ink-muted leading-relaxed pt-1 border-t border-rule/50">
+                                💡 {isRTL
+                                    ? 'يقيس هذا المؤشر عدد المعاملات والتقارير المنجزة عبر أساليب المكتبة المعتمدة بدلاً من الصياغة اليدوية.'
+                                    : 'Measures the volume of recurring memos, letters, or briefs completed using verified library methods instead of manual drafting.'}
+                            </p>
                         </div>
 
                         {/* Visual Metrics Display */}
@@ -524,13 +525,6 @@ export default function LandingPage(): React.ReactElement {
                                                       ][index]
                                                     : rung.label}
                                             </div>
-                                            {calculatedRungKey === rung.key && (
-                                                <div className="mt-1 text-center">
-                                                    <span className="chip border border-accent bg-surface text-accent text-[9px] font-bold px-1 py-0.5">
-                                                        {isRTL ? 'مستواك' : 'Your tier'}
-                                                    </span>
-                                                </div>
-                                            )}
                                         </button>
                                     ))}
                                 </div>
@@ -543,11 +537,18 @@ export default function LandingPage(): React.ReactElement {
                                                 ? `الدرجة المختارة: ${activeRung.label}`
                                                 : `Selected Rung: ${activeRung.label}`}
                                         </span>
-                                        {activeRung.isMaktabaRung && (
-                                            <span className="chip border border-accent bg-surface text-accent text-[11px] font-semibold">
-                                                {isRTL ? 'نطاق تركيز المكتبة 🎯' : 'Al-Maktaba focus 🎯'}
-                                            </span>
-                                        )}
+                                        <div className="flex items-center gap-2">
+                                            {calculatedRungKey === activeRung.key && (
+                                                <span className="chip border border-accent/60 bg-surface text-accent text-[11px] font-semibold">
+                                                    {isRTL ? 'المستوى المحسوب بالحاسبة' : 'Your simulated tier'}
+                                                </span>
+                                            )}
+                                            {activeRung.isMaktabaRung && (
+                                                <span className="chip border border-accent bg-surface text-accent text-[11px] font-semibold">
+                                                    {isRTL ? 'نطاق تركيز المكتبة 🎯' : 'Al-Maktaba focus 🎯'}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                     <p className="type-meta text-ink leading-relaxed">
                                         {isRTL

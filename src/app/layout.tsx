@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { Source_Serif_4, IBM_Plex_Sans } from 'next/font/google';
 import { thmanyahSans, thmanyahSerifDisplay, thmanyahSerifText } from '@/lib/fonts';
 
@@ -30,19 +31,31 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
-}): React.ReactElement {
+}): Promise<React.ReactElement> {
+    const cookieStore = await cookies();
+    const cookieLang = cookieStore.get('almaktaba_lang')?.value;
+    const initialLang = cookieLang === 'en' ? 'en' : 'ar';
+    const isRtl = initialLang === 'ar';
+
     return (
         <html
-            lang="ar"
-            dir="rtl"
+            lang={initialLang}
+            dir={isRtl ? 'rtl' : 'ltr'}
             className={`${sourceSerif.variable} ${plexSans.variable} ${thmanyahSans.variable} ${thmanyahSerifDisplay.variable} ${thmanyahSerifText.variable} h-full`}
         >
+            <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `(function(){try{var p=localStorage.getItem('almaktaba_lang_pref');if(p==='en'||p==='ar'){document.documentElement.lang=p;document.documentElement.dir=p==='ar'?'rtl':'ltr';document.cookie='almaktaba_lang='+p+'; path=/; max-age=31536000; SameSite=Lax';}}catch(e){}})();`,
+                    }}
+                />
+            </head>
             <body className="min-h-full flex flex-col bg-paper text-ink">
-                <LanguageProvider>
+                <LanguageProvider initialLanguage={initialLang}>
                     <SiteHeader />
                     <main className="flex-1">{children}</main>
                     <SiteFooter />

@@ -235,16 +235,35 @@ export function MethodDetailView({
                     </div>
                     <div>
                         <div className="type-disclosure text-ink-faint">
-                            {isAr ? 'عمليات التشغيل المساهمة' : 'Runs contributing'}
+                            {isAr ? 'عينة التشغيل المقاسة' : 'Benchmark sample runs'}
                         </div>
                         <div className="type-display-3 tabular-nums text-ink">
-                            {formatCount(method.performance.runs)}
+                            {formatCount(method.performance.runs)}{' '}
+                            <span className="type-meta font-normal text-ink-muted">
+                                {isAr ? 'تشغيل' : 'runs'}
+                            </span>
                         </div>
                     </div>
                 </div>
-                <p className="type-meta mt-3 text-ink-muted leading-relaxed">
-                    {method.performance.accuracyNote}
-                </p>
+
+                <div className="mt-4 rounded-[6px] border border-rule bg-surface-sunk/40 p-3.5 type-disclosure text-ink-muted flex items-start gap-2.5">
+                    <span className="text-accent text-base select-none">📊</span>
+                    <div className="space-y-1">
+                        <p className="font-semibold text-ink">
+                            {isAr ? 'ماذا تعني عينة التشغيل المقاسة؟' : 'What does the benchmark sample mean?'}
+                        </p>
+                        <p className="leading-relaxed">
+                            {isAr
+                                ? 'يستند قياس الوقت المستعاد إلى توثيق أوقات الإنجاز الفعلية لعدد العمليات الموضحة أعلاه والتي نفذها زملاء في بيئة العمل، وليس مجرد استبيانات أو تقديرات ذاتية.'
+                                : 'The time returned is benchmarked against real operational task durations across the verified colleague runs above, proving measured impact rather than subjective estimates.'}
+                        </p>
+                        {method.performance.accuracyNote && (
+                            <p className="text-ink-faint italic pt-1 border-t border-rule/40">
+                                {method.performance.accuracyNote}
+                            </p>
+                        )}
+                    </div>
+                </div>
             </Section>
 
             <Section
