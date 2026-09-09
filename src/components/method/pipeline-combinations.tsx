@@ -4,79 +4,92 @@ import Link from 'next/link';
 import type { IMethod } from '@/data/types';
 import { getMethod } from '@/data/methods';
 import { getPipelineCombinations } from '@/data/samples';
+import { getAgentsForMethod } from '@/data/agents';
 import { useLanguage } from '@/context/language-context';
+import { PipelineDiagram, type IDiagramStep } from '@/components/pipeline-diagram';
+import { cn } from '@/lib/utils';
 
 export function PipelineCombinations({ method }: { method: IMethod }): React.ReactElement {
     const { lang } = useLanguage();
     const isAr = lang === 'ar';
     const pipelines = getPipelineCombinations(method);
 
+    const precedes = pipelines.filter((p) => p.relationship === 'precedes');
+    const follows = pipelines.filter((p) => p.relationship === 'follows');
+    const complements = pipelines.filter((p) => p.relationship === 'complements');
+
+    // Build the chain: upstream → this method → downstream.
+    const steps: IDiagramStep[] = [
+        ...precedes.map((p) => ({ methodId: p.methodId, note: p.role, noteAr: p.roleAr })),
+        {
+            methodId: method.id,
+            note: method.whatItDoes,
+            noteAr: isAr ? 'الخطوة الحالية في السلسلة.' : 'The current step in the chain.',
+            isCurrent: true,
+        },
+        ...follows.map((p) => ({ methodId: p.methodId, note: p.role, noteAr: p.roleAr })),
+    ];
+
+    const agentIds = getAgentsForMethod(method).map((agent) => agent.id);
+
     return (
         <div className="space-y-4">
             <p className="type-meta text-ink-muted leading-relaxed">
                 {isAr
-                    ? 'لا تعمل أساليب الذكاء الاصطناعي الناجحة في معزل. توضح السلسلة أدناه كيفية ربط هذا الأسلوب بأساليب أخرى في المكتبة لبناء خط إنتاج رقمي متكامل.'
-                    : 'High-impact AI work methods operate in composite pipelines rather than silos. The workflow chains below illustrate how to connect this method with other library assets for end-to-end task execution.'}
+                    ? 'لا تعمل أساليب الذكاء الاصطناعي الناجحة في معزل. توضح السلسلة أدناه كيف يتصل هذا الأسلوب بأساليب أخرى في المكتبة ليكوّنا خط إنتاج رقمياً متكاملاً من طرف إلى طرف، مع بوابات جودة مشتركة تفحص كل خطوة.'
+                    : 'High-impact methods compose rather than operate in silos. The chain below shows how this method connects to others in the library to form one end-to-end agentic pipeline — with shared quality gates checking every step.'}
             </p>
 
-            <div className="space-y-3">
-                {pipelines.map((comb) => {
-                    const linked = getMethod(comb.methodId);
-                    if (!linked) return null;
+            <PipelineDiagram steps={steps} agentIds={agentIds} />
 
-                    const isLinkedAr =
-                        linked.language === 'Arabic' ||
-                        linked.titleLang === 'ar' ||
-                        /[\u0600-\u06FF]/.test(linked.title);
-
-                    const relationshipLabel =
-                        comb.relationship === 'precedes'
-                            ? isAr ? 'أسلوب سابق مُمهد' : 'Upstream Step (Input Source)'
-                            : comb.relationship === 'follows'
-                              ? isAr ? 'أسلوب لاحق مكمل' : 'Downstream Step (Next Action)'
-                              : isAr ? 'أسلوب تكاملي مرافق' : 'Companion Method';
-
-                    return (
-                        <div
-                            key={comb.methodId}
-                            className="rounded-[8px] border border-rule bg-surface p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-rule-strong transition-colors"
-                        >
-                            <div className="min-w-0 flex-1">
-                                <div className="flex items-center gap-2 mb-1.5">
-                                    <span className="chip border border-rule bg-surface-sunk text-ink-muted text-[11px] font-semibold">
-                                        🔗 {relationshipLabel}
-                                    </span>
-                                </div>
-
+            {complements.length > 0 && (
+                <div>
+                    <h4 className="type-label font-bold text-ink mb-2">
+                        {isAr ? 'أساليب مرافقة (تعمل بالتوازي)' : 'Companion methods (run in parallel)'}
+                    </h4>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                        {complements.map((comb) => {
+                            const linked = getMethod(comb.methodId);
+                            if (!linked) return null;
+                            const linkedAr =
+                                linked.language === 'Arabic' ||
+                                linked.titleLang === 'ar' ||
+                                /[؀-ۿ]/.test(linked.title);
+                            return (
                                 <Link
+                                    key={comb.methodId}
                                     href={`/library/${linked.id}`}
-                                    className="type-label font-bold text-ink hover:text-accent hover:underline block"
+                                    className="rounded-[6px] border border-rule bg-surface p-3 hover:border-rule-strong transition-colors"
                                 >
                                     <span
-                                        dir={isLinkedAr ? 'rtl' : 'ltr'}
-                                        lang={isLinkedAr ? 'ar' : 'en'}
-                                        className={isLinkedAr ? 'font-arabic' : 'font-sans'}
+                                        dir={linkedAr ? 'rtl' : 'ltr'}
+                                        lang={linkedAr ? 'ar' : 'en'}
+                                        className={cn(
+                                            'type-label font-bold text-ink hover:text-accent block',
+                                            linkedAr && 'font-arabic',
+                                        )}
                                     >
                                         {linked.title}
                                     </span>
+                                    <span className="type-disclosure text-ink-muted mt-1 block leading-relaxed">
+                                        {isAr ? comb.roleAr : comb.role}
+                                    </span>
                                 </Link>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
 
-                                <p className="type-meta text-ink-muted mt-1 leading-relaxed">
-                                    {isAr ? comb.roleAr : comb.role}
-                                </p>
-                            </div>
-
-                            <div className="shrink-0 flex items-center gap-2 self-end sm:self-center">
-                                <Link
-                                    href={`/library/${linked.id}`}
-                                    className="btn btn-secondary btn-sm"
-                                >
-                                    {isAr ? 'عرض الأسلوب المكمل ←' : 'Inspect method →'}
-                                </Link>
-                            </div>
-                        </div>
-                    );
-                })}
+            <div className="rounded-[6px] border border-rule bg-surface-sunk/40 p-3 flex items-center justify-between gap-3">
+                <p className="type-meta text-ink-muted">
+                    {isAr
+                        ? 'اطّلع على أمثلة كاملة لخطوط الإنتاج الرقمية من طرف إلى طرف.'
+                        : 'See full, worked examples of end-to-end pipelines.'}
+                </p>
+                <Link href="/#pipelines" className="btn btn-secondary btn-sm shrink-0">
+                    {isAr ? 'أمثلة خطوط الإنتاج ←' : 'Pipeline examples →'}
+                </Link>
             </div>
         </div>
     );

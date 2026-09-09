@@ -118,7 +118,7 @@ const SEEDS: Seed[] = [
         whatStaysHuman:
             'The decision the letter communicates, and the final sign-off. The method drafts; a person owns the message and approves it before it leaves.',
         methodBody:
-            'You are drafting formal Arabic government correspondence. Follow the official correspondence guide: open with the correct salutation for the recipient\'s rank, state the purpose in the first paragraph, give the detail in the body, and close with the standard formal ending. Keep the register formal and impersonal. Do not invent facts beyond the bullet points supplied.',
+            'أنت تصيغ مراسلة حكومية رسمية باللغة العربية وفق دليل التراسل الحكومي الموحد. ابدأ بالبسملة ثم الترويسة والرقم والتاريخ الهجري، واستخدم الألقاب والصيغة المناسبة لرتبة المستلم، واذكر الغرض في الفقرة الأولى، ثم التفاصيل في المتن، واختم بالصيغة الرسمية المعتمدة. حافظ على أسلوب رسمي وقور وغير شخصي، ولا تختلق أي معلومة خارج النقاط المزودة.',
         outputFormat:
             'A complete letter with header block, body, and closing, ready to paste into the official template.',
         qualityChecklist: [
@@ -225,7 +225,7 @@ const SEEDS: Seed[] = [
         whatStaysHuman:
             'Any promise of compensation or exception to policy. The agent decides what to offer; the method only phrases it.',
         methodBody:
-            'Write a reply to the customer in Modern Standard Arabic with a warm, professional tone. Acknowledge the specific issue, state the applicable policy plainly, and give the next step. Never promise a refund, credit or exception unless the agent has supplied one as an input.',
+            'اكتب رداً على العميل باللغة العربية الفصحى بنبرة ودودة ومهنية. أقرّ بالمشكلة المحددة، واذكر السياسة المطبّقة بوضوح، ثم حدّد الخطوة التالية. لا تَعِد باسترجاع أو رصيد أو استثناء ما لم يزوّدك الموظف بذلك كمُدخل.',
         outputFormat: 'A ready-to-send reply, plus a one-line internal note on which policy was applied.',
         qualityChecklist: [
             'Addresses the specific issue raised',
@@ -275,7 +275,7 @@ const SEEDS: Seed[] = [
         whatStaysHuman:
             'Legal review and the binding interpretation. The draft is a starting structure, not counsel.',
         methodBody:
-            'Draft an internal policy in Arabic from the administrative decision provided. Produce numbered sections: purpose, scope, definitions, provisions, responsibilities, and effective date. Keep each provision to a single obligation. Mark any point that needs a legal decision with a bracketed note rather than guessing.',
+            'اصُغ مسودة سياسة داخلية باللغة العربية انطلاقاً من القرار الإداري المزود. أنتج أقساماً مرقمة: الغرض، النطاق، التعريفات، الأحكام، المسؤوليات، وتاريخ النفاذ. اجعل كل حكم التزاماً واحداً فقط. ضع أي نقطة تحتاج قراراً قانونياً بين أقواس كملاحظة بدلاً من التخمين.',
         outputFormat: 'A numbered policy document with a bracketed list of open legal questions at the end.',
         qualityChecklist: [
             'One obligation per provision',
@@ -378,7 +378,7 @@ const SEEDS: Seed[] = [
         whatStaysHuman:
             'The grade, the salary band and any exclusionary requirement. The method drafts; HR owns fairness.',
         methodBody:
-            'Write a job description in Arabic. Include purpose, key responsibilities, essential requirements, and preferred requirements as separate lists. Keep language inclusive and avoid requirements that are not genuinely needed for the role. Do not state salary.',
+            'اكتب وصفاً وظيفياً باللغة العربية يتضمن: الغرض من الوظيفة، المهام الرئيسية، المتطلبات الإلزامية، والمتطلبات المفضلة كقوائم منفصلة. استخدم لغة شاملة وتجنّب اشتراط متطلبات غير ضرورية فعلاً للدور. لا تذكر الراتب.',
         outputFormat: 'A structured job description with essential and preferred requirements kept separate.',
         qualityChecklist: [
             'Essential and preferred kept separate',
@@ -508,7 +508,7 @@ const SEEDS: Seed[] = [
         inputsRequired: ['The complaint text', 'The list of teams and their remits', 'The urgency bands'],
         whatStaysHuman: 'The final routing when a case is ambiguous or sensitive.',
         methodBody:
-            'Read the complaint in Arabic. Output its category from the supplied list, an urgency band, and the team it should go to. If the complaint mentions a regulator, fraud, or a vulnerable customer, mark it for human review regardless of category.',
+            'اقرأ الشكوى باللغة العربية. أخرِج فئتها من القائمة المزودة، ودرجة إلحاحها، والجهة التي ينبغي توجيهها إليها. إذا أشارت الشكوى إلى جهة رقابية أو احتيال أو عميل من الفئات الهشّة، ضَع علامة "مراجعة بشرية" بصرف النظر عن الفئة.',
         outputFormat: 'A short structured record: category, urgency, suggested team, review flag.',
         qualityChecklist: [
             'Category drawn from the supplied list',
@@ -573,7 +573,7 @@ const SEEDS: Seed[] = [
         inputsRequired: ['The meeting notes or transcript', 'The attendee list', 'The agenda'],
         whatStaysHuman: 'Confirming decisions were captured correctly before circulation.',
         methodBody:
-            'Produce meeting minutes in Arabic. List attendees, then for each agenda item record the discussion in one or two lines, the decision, and any action with an owner and due date. Do not attribute quotes to named people unless the notes do.',
+            'أنتج محضر اجتماع باللغة العربية. اذكر الحضور، ثم لكل بند من جدول الأعمال دوّن المناقشة في سطر أو سطرين، والقرار المتخذ، وأي مهمة مع المسؤول عنها وتاريخ الاستحقاق. لا تنسب أقوالاً لأشخاص بأسمائهم ما لم تفعل الملاحظات ذلك.',
         outputFormat: 'Minutes with a decisions list and an action table (owner, due date).',
         qualityChecklist: [
             'Every action has an owner',
@@ -765,7 +765,7 @@ const SEEDS: Seed[] = [
         inputsRequired: ['The subject and grade', 'The lesson topic', 'The class duration'],
         whatStaysHuman: 'Adapting the plan to the specific class and its needs.',
         methodBody:
-            'Write a lesson plan in Arabic with: learning objectives, a warm-up, a main activity, a plenary, and a short formative assessment. Align objectives to the stated stage. Keep activities achievable within the class duration.',
+            'اكتب خطة درس باللغة العربية تتضمن: الأهداف التعليمية، تهيئة افتتاحية، نشاطاً رئيسياً، خاتمة، وتقويماً تكوينياً قصيراً. واءم الأهداف مع المرحلة الدراسية المحددة، واجعل الأنشطة قابلة للتنفيذ ضمن زمن الحصة.',
         outputFormat: 'A lesson plan with objectives, timed activities, and an assessment.',
         qualityChecklist: [
             'Objectives match the stage',
@@ -866,7 +866,7 @@ const SEEDS: Seed[] = [
         inputsRequired: ['The contract type', 'Which party you act for', 'The risk to allocate'],
         whatStaysHuman: 'Legal advice and the negotiation position. The clause is a starting draft only.',
         methodBody:
-            'From the firm clause bank, return the standard clause matching the contract type, party and risk. Present it in Arabic, note which party it favours, and list the variables to fill. Do not draft a clause from scratch that is not in the bank.',
+            'من مكتبة بنود المكتب، أعد البند القياسي المطابق لنوع العقد والطرف والمخاطرة. اعرضه باللغة العربية، ووضّح لأي طرف ينحاز، واذكر المتغيرات الواجب تعبئتها. لا تصُغ بنداً من الصفر غير موجود في المكتبة.',
         outputFormat: 'A standard clause with its variables marked and its bias noted.',
         qualityChecklist: [
             'Clause drawn from the firm bank',
@@ -901,7 +901,7 @@ const SEEDS: Seed[] = [
         inputsRequired: ['The lesson content', 'The number of questions and their split by difficulty', 'The question types allowed'],
         whatStaysHuman: 'Reviewing questions for fairness and curriculum fit before use.',
         methodBody:
-            'Generate exam questions in Arabic from the lesson content at the difficulty split requested. Provide an answer key and a specification table mapping each question to an objective and a difficulty band. Only use content present in the lesson.',
+            'ولّد أسئلة اختبار باللغة العربية من محتوى الدرس وفق توزيع الصعوبة المطلوب. زوّد بمفتاح إجابة وجدول مواصفات يربط كل سؤال بهدف تعليمي ومستوى صعوبة. استخدم فقط المحتوى الوارد في الدرس.',
         outputFormat: 'A question set, an answer key, and a specification table.',
         qualityChecklist: [
             'Difficulty split respected',

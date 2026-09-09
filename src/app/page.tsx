@@ -6,9 +6,11 @@ import Link from 'next/link';
 import { sectorCounts } from '@/data/derive';
 import { ADOPTION_LADDER } from '@/data/insights';
 import { METHODS } from '@/data/methods';
+import { END_TO_END_PIPELINES } from '@/data/pipelines';
 import { cn, formatCount } from '@/lib/utils';
 import { useLanguage } from '@/context/language-context';
 import { CatalogueStrip } from '@/components/landing/catalogue-strip';
+import { PipelineDiagram } from '@/components/pipeline-diagram';
 import { IllustrativeChip } from '@/components/illustrative-chip';
 
 function SectionHeading({ children }: { children: React.ReactNode }): React.ReactElement {
@@ -29,6 +31,11 @@ export default function LandingPage(): React.ReactElement {
 
     // Interactive Sector Explorer state
     const [previewSectorId, setPreviewSectorId] = useState<string>('government');
+
+    // End-to-end pipeline showcase state
+    const [activePipelineId, setActivePipelineId] = useState<string>(END_TO_END_PIPELINES[0].id);
+    const activePipeline =
+        END_TO_END_PIPELINES.find((p) => p.id === activePipelineId) ?? END_TO_END_PIPELINES[0];
 
     // ROI Calculations (Average 32 minutes saved per run, 48 work weeks/year)
     const annualHoursSaved = Math.round(teamSize * runsPerWeek * 0.53 * 48);
@@ -809,6 +816,66 @@ export default function LandingPage(): React.ReactElement {
                             </Link>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Section 6.5 — Compose an end-to-end agentic pipeline */}
+            <section id="pipelines" className="scroll-mt-20 border-y border-rule bg-surface">
+                <div className="mx-auto max-w-[1180px] px-4 sm:px-5 py-10 sm:py-14 md:px-8 md:py-20">
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                        <SectionHeading>
+                            {isRTL
+                                ? 'اربط الأساليب في خط إنتاج وكيل متكامل'
+                                : 'Compose methods into one end-to-end pipeline'}
+                        </SectionHeading>
+                        <IllustrativeChip />
+                    </div>
+                    <p className="type-body text-ink-muted max-w-[720px] leading-relaxed mb-6">
+                        {isRTL
+                            ? 'الأسلوب الواحد يحل مهمة. لكن القيمة الحقيقية تظهر حين تتسلسل عدة أساليب معاً: مخرج خطوة يصبح مدخل الخطوة التالية، وتفحص وكلاءُ جودةٍ مشتركون كل خطوة. اختر مثالاً لترى خط إنتاج كاملاً من طرف إلى طرف.'
+                            : 'A single method solves one task. The real value appears when several methods chain together — the output of one step becomes the input of the next, and shared quality-gate agents check every step. Pick an example to see a full end-to-end pipeline.'}
+                    </p>
+
+                    {/* Pipeline selector tabs */}
+                    <div className="mb-4 flex flex-wrap gap-2">
+                        {END_TO_END_PIPELINES.map((pipeline) => (
+                            <button
+                                key={pipeline.id}
+                                type="button"
+                                onClick={() => setActivePipelineId(pipeline.id)}
+                                className={cn(
+                                    'rounded-[4px] border px-3 py-1.5 type-meta font-medium transition-colors',
+                                    pipeline.id === activePipelineId
+                                        ? 'border-accent bg-accent text-white font-semibold'
+                                        : 'border-rule bg-surface text-ink-muted hover:border-rule-strong',
+                                )}
+                            >
+                                {isRTL ? pipeline.titleAr : pipeline.title}
+                            </button>
+                        ))}
+                    </div>
+
+                    <p className="type-meta text-ink-muted mb-3 leading-relaxed max-w-[760px]">
+                        {isRTL ? activePipeline.summaryAr : activePipeline.summary}
+                    </p>
+
+                    <PipelineDiagram
+                        key={activePipeline.id}
+                        steps={activePipeline.steps.map((step) => ({
+                            methodId: step.methodId,
+                            note: step.note,
+                            noteAr: step.noteAr,
+                        }))}
+                        agentIds={activePipeline.agentIds}
+                        outcome={activePipeline.outcome}
+                        outcomeAr={activePipeline.outcomeAr}
+                    />
+
+                    <p className="type-disclosure text-ink-faint mt-4 max-w-[760px] leading-relaxed">
+                        {isRTL
+                            ? 'البوابات المشتركة (مثل مدقق الجودة وحارس الخصوصية والتدقيق اللغوي) تُعرَّف مرة واحدة وتُعاد عبر كل الأساليب — فلا يُحشى كل أمر بتعليمات التحقق والامتثال على حدة.'
+                            : 'Shared gates (Quality Auditor, Privacy Sentinel, Arabic Stylist, and more) are defined once and reused across every method — so no single prompt has to carry verification and compliance on its own.'}
+                    </p>
                 </div>
             </section>
 

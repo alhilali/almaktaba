@@ -149,7 +149,7 @@ export interface IMethod {
     suggestedAgents?: string[];
     /** Complementary workflows that form multi-step agentic pipelines. */
     pipelineCombinations?: IPipelineCombination[];
-    /** CLI execution snippet (e.g. agy run). */
+    /** CLI execution snippet (e.g. `maktaba run`). */
     cliExecution?: ICliExecution;
     /** File upload guidelines for running the method. */
     uploadGuide?: IUploadGuide;
