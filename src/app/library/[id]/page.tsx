@@ -2,9 +2,13 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { METHODS, getMethod } from '@/data/methods';
+import { getMethodBySlug } from '@/data/repository';
 import { getSector } from '@/data/sectors';
 import { getRole } from '@/data/roles';
 import { MethodDetailView } from '@/components/method/method-detail-view';
+
+// Allow database-published methods (not in the static seed) to render on demand.
+export const dynamicParams = true;
 
 export function generateStaticParams(): { id: string }[] {
     return METHODS.map((method) => ({ id: method.id }));
@@ -29,7 +33,7 @@ export default async function MethodDetailPage({
     params: Promise<{ id: string }>;
 }): Promise<React.ReactElement> {
     const { id } = await params;
-    const method = getMethod(id);
+    const method = getMethod(id) ?? (await getMethodBySlug(id));
     if (!method) {
         notFound();
     }

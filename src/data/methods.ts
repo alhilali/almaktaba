@@ -1,4 +1,5 @@
 import type { IMethod, IMethodVersion } from '@/data/types';
+import { deriveInputs } from '@/lib/prompt';
 
 /**
  * Seed catalogue — 24 methods. All figures are illustrative sample data.
@@ -31,7 +32,10 @@ type Seed = Pick<
     | 'qualityChecklist'
 > &
     Partial<
-        Pick<IMethod, 'provenance' | 'performance' | 'reuseTrail' | 'versionHistory' | 'rating'>
+        Pick<
+            IMethod,
+            'provenance' | 'performance' | 'reuseTrail' | 'versionHistory' | 'rating' | 'inputs'
+        >
     >;
 
 const DEFAULT_MODELS = ['GPT-5', 'Gemini 2.5 Pro'];
@@ -85,7 +89,8 @@ function completeMethod(seed: Seed): IMethod {
         },
     ];
     const rating = seed.rating ?? ratingFor(0, 0);
-    return { ...seed, provenance, performance, reuseTrail, versionHistory, rating };
+    const inputs = seed.inputs ?? deriveInputs(seed.inputsRequired);
+    return { ...seed, provenance, performance, reuseTrail, versionHistory, rating, inputs };
 }
 
 const SEEDS: Seed[] = [
