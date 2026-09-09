@@ -60,10 +60,10 @@ export function PipelineDiagram({
                             <Link
                                 href={`/library/${method.id}`}
                                 className={cn(
-                                    'group flex-1 rounded-[6px] border p-3 transition-colors',
+                                    'group flex-1 rounded-[6px] border p-3',
                                     step.isCurrent
                                         ? 'border-accent bg-accent-sunk/40'
-                                        : 'border-rule bg-paper hover:border-rule-strong',
+                                        : 'border-rule bg-paper tap-card',
                                 )}
                             >
                                 <div className="mb-1.5 flex items-center gap-2">

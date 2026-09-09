@@ -59,7 +59,7 @@ export function PipelineCombinations({ method }: { method: IMethod }): React.Rea
                                 <Link
                                     key={comb.methodId}
                                     href={`/library/${linked.id}`}
-                                    className="rounded-[6px] border border-rule bg-surface p-3 hover:border-rule-strong transition-colors"
+                                    className="tap-card rounded-[6px] border border-rule bg-surface p-3"
                                 >
                                     <span
                                         dir={linkedAr ? 'rtl' : 'ltr'}

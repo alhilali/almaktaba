@@ -2,15 +2,26 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { Wordmark } from '@/components/wordmark';
 import { NavLink } from '@/components/nav-link';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { useLanguage } from '@/context/language-context';
+import { cn } from '@/lib/utils';
 
 export function SiteHeader(): React.ReactElement {
     const { t } = useLanguage();
+    const pathname = usePathname();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const mobileNavItems: { href: string; label: string }[] = [
+        { href: '/library', label: t('navLibrary') },
+        { href: '/insights', label: t('navInsights') },
+        { href: '/publish', label: t('navPublish') },
+        { href: '/requests', label: t('navRequests') },
+        { href: '/about', label: t('navAbout') },
+    ];
 
     return (
         <header className="sticky top-0 z-40 border-b border-rule bg-surface/95 backdrop-blur-xs">
@@ -54,46 +65,36 @@ export function SiteHeader(): React.ReactElement {
             {mobileMenuOpen && (
                 <div className="border-t border-rule bg-surface px-5 py-4 sm:hidden animate-in slide-in-from-top-2 duration-150">
                     <nav className="flex flex-col divide-y divide-rule/60">
-                        <Link
-                            href="/library"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="type-meta py-2.5 font-medium text-ink hover:text-accent flex items-center justify-between"
-                        >
-                            <span>{t('navLibrary')}</span>
-                            <span className="text-ink-faint text-xs">→</span>
-                        </Link>
-                        <Link
-                            href="/insights"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="type-meta py-2.5 font-medium text-ink hover:text-accent flex items-center justify-between"
-                        >
-                            <span>{t('navInsights')}</span>
-                            <span className="text-ink-faint text-xs">→</span>
-                        </Link>
-                        <Link
-                            href="/publish"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="type-meta py-2.5 font-medium text-ink hover:text-accent flex items-center justify-between"
-                        >
-                            <span>{t('navPublish')}</span>
-                            <span className="text-ink-faint text-xs">→</span>
-                        </Link>
-                        <Link
-                            href="/requests"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="type-meta py-2.5 font-medium text-ink hover:text-accent flex items-center justify-between"
-                        >
-                            <span>{t('navRequests')}</span>
-                            <span className="text-ink-faint text-xs">→</span>
-                        </Link>
-                        <Link
-                            href="/about"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="type-meta py-2.5 font-medium text-ink hover:text-accent flex items-center justify-between"
-                        >
-                            <span>{t('navAbout')}</span>
-                            <span className="text-ink-faint text-xs">→</span>
-                        </Link>
+                        {mobileNavItems.map((item) => {
+                            const isActive = pathname.startsWith(item.href);
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    aria-current={isActive ? 'page' : undefined}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={cn(
+                                        'type-meta py-2.5 flex items-center justify-between transition-colors',
+                                        isActive
+                                            ? 'font-semibold text-accent'
+                                            : 'font-medium text-ink hover:text-accent',
+                                    )}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        {isActive && (
+                                            <span
+                                                aria-hidden
+                                                className="h-3.5 w-0.5 rounded-full bg-accent"
+                                            />
+                                        )}
+                                        {item.label}
+                                    </span>
+                                    <span className="text-ink-faint text-xs">
+                                        {isActive ? '•' : '→'}
+                                    </span>
+                                </Link>
+                            );
+                        })}
                     </nav>
                     <div className="mt-4 pt-3 border-t border-rule">
                         <Link
