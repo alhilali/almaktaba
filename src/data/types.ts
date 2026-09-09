@@ -74,6 +74,26 @@ export interface ISampleExample {
     content: string;
 }
 
+/** How a publisher-defined input is supplied when running a method. */
+export type MethodInputType = 'text' | 'file' | 'pdf' | 'image';
+
+/**
+ * A structured, named input a method declares. The publisher defines these; a
+ * runner supplies a value for each, and the prompt references them by token
+ * ({{name}}). Files/images are handled client-side and never uploaded.
+ */
+export interface IMethodInput {
+    id: string;
+    /** Token name (snake_case), referenced in the prompt as {{name}}. */
+    name: string;
+    label: string;
+    labelAr?: string;
+    type: MethodInputType;
+    description: string;
+    descriptionAr?: string;
+    required: boolean;
+}
+
 export interface ISharedAgent {
     id: string;
     name: string;
@@ -133,6 +153,8 @@ export interface IMethod {
     rating: IRating;
     whatItDoes: string;
     inputsRequired: string[];
+    /** Structured, typed inputs a runner supplies; referenced in the prompt. */
+    inputs?: IMethodInput[];
     whatStaysHuman: string;
     /** The method body itself — prompt or instructions. */
     methodBody: string;
