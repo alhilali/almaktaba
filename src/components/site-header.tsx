@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { Wordmark } from '@/components/wordmark';
 import { NavLink } from '@/components/nav-link';
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { AuthStatus } from '@/components/auth-status';
 import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
 
@@ -35,6 +36,7 @@ export function SiteHeader(): React.ReactElement {
                         <NavLink href="/requests">{t('navRequests')}</NavLink>
                         <NavLink href="/about">{t('navAbout')}</NavLink>
                     </span>
+                    <AuthStatus />
                     <LanguageSwitcher />
                     <Link href="/library" className="btn btn-primary btn-sm hidden xs:inline-flex">
                         {t('navBrowse')}

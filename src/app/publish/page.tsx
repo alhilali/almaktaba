@@ -9,6 +9,7 @@ import { ROLE_FAMILIES, getRole } from '@/data/roles';
 import { MODELS } from '@/data/models';
 import { SHARED_AGENTS } from '@/data/agents';
 import { tokenize } from '@/lib/prompt';
+import { publishMethod, type IPublishResult } from '@/app/actions/methods';
 import { cn } from '@/lib/utils';
 
 interface IDraft {
@@ -89,6 +90,35 @@ export default function PublishPage(): React.ReactElement {
     const [example, setExample] = useState('');
     const [assistUsed, setAssistUsed] = useState(false);
     const [published, setPublished] = useState(false);
+    const [publishing, setPublishing] = useState(false);
+    const [result, setResult] = useState<IPublishResult | null>(null);
+
+    async function handlePublish(): Promise<void> {
+        setPublishing(true);
+        const res = await publishMethod({
+            title: draft.title,
+            titleLang: draft.titleLang,
+            description: draft.description,
+            roleId: draft.roleId,
+            sectorId: draft.sectorId,
+            language: draft.language,
+            methodBody: draft.methodBody,
+            outputFormat: draft.outputFormat,
+            inputs: draft.inputs.map((input) => ({
+                name: input.name,
+                label: input.label,
+                type: input.type,
+                description: input.description,
+                required: input.required,
+            })),
+            agentIds: draft.suggestedAgentIds,
+            modelId: draft.modelId,
+            sensitivity: draft.sensitivity,
+        });
+        setPublishing(false);
+        setResult(res);
+        setPublished(true);
+    }
 
     function set<K extends keyof IDraft>(key: K, value: IDraft[K]): void {
         setDraft((prev) => ({ ...prev, [key]: value }));
@@ -172,30 +202,57 @@ export default function PublishPage(): React.ReactElement {
                 : true;
 
     if (published) {
+        const title =
+            result?.ok
+                ? 'Published'
+                : result?.needsAuth
+                  ? 'Sign in to publish'
+                  : result?.error
+                    ? 'Couldn’t publish'
+                    : 'Published — in the preview';
+        const body = result?.ok
+            ? `“${draft.title}” is saved as version 1 with its typed inputs, chosen model, and shared quality gates, credited to you.`
+            : result?.needsAuth
+              ? 'Your method is ready — sign in and publish it so it’s attributed to you and appears in the library.'
+              : result?.error
+                ? `The database rejected the publish: ${result.error}`
+                : `Once Supabase is connected, this saves “${draft.title || 'your method'}” as version 1 with its typed inputs, chosen model, and shared quality gates — crediting you as the author. In this preview it isn’t persisted.`;
+
         return (
             <div className="mx-auto max-w-[680px] px-5 py-24 text-center md:px-8">
-                <h1 className="type-display-2 text-ink">Published — in the demo</h1>
-                <p className="type-body-lg mt-4 text-ink-muted">
-                    Once Supabase is connected, this saves {draft.title ? `“${draft.title}”` : 'your method'} as version 1
-                    with its typed inputs, chosen model, and shared quality gates — crediting you as the author. In this
-                    preview it isn’t persisted.
-                </p>
+                <h1 className="type-display-2 text-ink">{title}</h1>
+                <p className="type-body-lg mt-4 text-ink-muted">{body}</p>
                 <div className="mt-7 flex justify-center gap-3">
-                    <Link href="/library" className="btn btn-primary">
-                        Back to the library
-                    </Link>
+                    {result?.ok && result.slug ? (
+                        <Link href={`/library/${result.slug}`} className="btn btn-primary">
+                            View the method
+                        </Link>
+                    ) : result?.needsAuth ? (
+                        <Link href="/signin" className="btn btn-primary">
+                            Sign in
+                        </Link>
+                    ) : (
+                        <Link href="/library" className="btn btn-primary">
+                            Back to the library
+                        </Link>
+                    )}
                     <button
                         type="button"
                         onClick={() => {
+                            if (result?.needsAuth || result?.error) {
+                                setPublished(false);
+                                return;
+                            }
                             setDraft(EMPTY_DRAFT);
                             setStep(0);
                             setPublished(false);
+                            setResult(null);
                             setAssistUsed(false);
                             setExample('');
                         }}
                         className="btn btn-secondary"
                     >
-                        Publish another
+                        {result?.needsAuth || result?.error ? 'Back to draft' : 'Publish another'}
                     </button>
                 </div>
             </div>
@@ -569,8 +626,13 @@ export default function PublishPage(): React.ReactElement {
                         Continue
                     </button>
                 ) : (
-                    <button type="button" onClick={() => setPublished(true)} className="btn btn-primary">
-                        Publish
+                    <button
+                        type="button"
+                        onClick={handlePublish}
+                        disabled={publishing}
+                        className="btn btn-primary disabled:opacity-40"
+                    >
+                        {publishing ? 'Publishing…' : 'Publish'}
                     </button>
                 )}
             </div>
